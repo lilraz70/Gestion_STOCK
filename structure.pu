@@ -54,6 +54,7 @@ class client{
 class historique{
     titre
     description
+    date
 }
 
 CategorieProduit -- Produit
