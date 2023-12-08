@@ -1,0 +1,71 @@
+@startuml
+
+class CategorieProduit{
+    Nom_CATEGORIE
+    Description
+    total_produits
+}
+
+class Produit{
+    Nom_PRODUIT
+    Description
+    
+}
+
+class stock{
+    total_produits
+    total_produits_restant
+    total_produits_sortant
+    total_produits_par_categoris
+}
+
+class sortis{
+    quantite
+    prix_en_gros
+    destination
+}
+
+class entrer{
+    quantite
+    prix
+}
+
+class grossiste{
+    nom_et_prenom
+    nom_societe
+    numero
+    autre_information
+}
+
+class forunisseur{
+    nom_et_prenom
+    nom_societe
+    numero
+    autre_information
+}
+
+class client{
+    nom_et_prenom
+    nom_societe
+    numero
+    autre_information
+}
+
+class historique{
+    titre
+    description
+}
+
+CategorieProduit -- Produit
+Produit -- stock
+Produit -- sortis
+Produit -- entrer
+entrer -- forunisseur
+sortis -- grossiste
+sortis -- client
+stock -- sortis
+stock -- entrer
+
+
+
+@enduml
