@@ -42,8 +42,8 @@ class Client(models.Model):
     autre_information = models.TextField()
 
     class Meta:
-        verbose_name = ("grossiste")
-        verbose_name_plural = ("grossistes")
+        verbose_name = ("Client")
+        verbose_name_plural = ("Clients")
 
     def __str__(self):
         return self.nom_et_prenom 
@@ -52,11 +52,11 @@ class Categories_Produit(models.Model):
 
     nom_categorie = models.CharField( max_length=150)
     description = models.TextField()
-    total_produits = models.IntegerField()
+    total_produits = models.IntegerField(default=0)
 
     class Meta:
-        verbose_name = ("Categories_Produit")
-        verbose_name_plural = ("Categories_Produits")
+        verbose_name = ("Categorie de Produit")
+        verbose_name_plural = ("Categories de  Produits")
 
     def __str__(self):
         return self.nom_categorie
@@ -85,11 +85,17 @@ class Stock(models.Model):
     
     produit = models.ForeignKey(Produit, on_delete=models.SET_NULL, null = True)
     total_produit = models.IntegerField()
-    total_produit_restants = models.IntegerField()
+    total_produit_restants = models.IntegerField(default=0)
     total_produit_sortis = models.IntegerField(default=0)
     total_produit_entrant = models.IntegerField(default=0)
     seuil_alerte_produit = models.IntegerField(default=5)
     alerte = models.BooleanField(default=False)
+    
+    def save(self, *args, **kwargs):
+        # Si c'est un nouvel objet, initialise le stock
+        if not self.pk:
+            self.initalisation_stock()
+        super().save(*args, **kwargs)
     
     def initalisation_stock(self):
         self.total_produit_restants = self.total_produit
@@ -110,7 +116,7 @@ class Stock(models.Model):
         verbose_name_plural = ("Stocks")
 
     def __str__(self):
-        return self.produit
+        return self.produit.nom_produit
     
 class Sortie_grossiste(models.Model):
     
@@ -118,6 +124,16 @@ class Sortie_grossiste(models.Model):
     grossiste = models.ForeignKey(Grossiste, on_delete=models.SET_NULL, null = True)
     quantite = models.IntegerField()
     prix_total = models.FloatField()    
+    
+    class Meta:
+        verbose_name = ("Sortie de grossiste")
+        verbose_name_plural = ("Sortie de grossistes")
+        
+    def save(self, *args, **kwargs):
+        # Si c'est un nouvel objet, initialise le stock
+        if not self.pk:
+            self.update_prix_total()
+        super().save(*args, **kwargs)
     
     def __str__(self):
         return self.produit.nom_produit + " - " + self.grossiste.nom_et_prenom
@@ -132,6 +148,17 @@ class Sortie_client(models.Model):
     client = models.ForeignKey(Client, on_delete=models.SET_NULL, null = True)
     quantite = models.IntegerField()
     prix_total = models.FloatField()    
+    
+    class Meta:
+        verbose_name = ("Sortie de client")
+        verbose_name_plural = ("Sortie de clients")
+    
+    def save(self, *args, **kwargs):
+        # Si c'est un nouvel objet, initialise le stock
+        if not self.pk:
+            self.update_prix_total()
+        super().save(*args, **kwargs)
+    
 
     def __str__(self):
         return self.produit.nom_produit + " - " + self.client.nom_et_prenom
@@ -147,6 +174,13 @@ class Entrer(models.Model):
     quantite = models.IntegerField()
     prix_total = models.FloatField()
     
+    def save(self, *args, **kwargs):
+        # Si c'est un nouvel objet, initialise le stock
+        if not self.pk:
+            self.update_prix_total()
+        super().save(*args, **kwargs)
+    
+    
     def __str__(self):
         return self.fournisseur.nom_et_prenom
     
@@ -157,6 +191,10 @@ class Entrer(models.Model):
 class Historique(models.Model):
     description = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.description
+    
 
 
 ########################################################
@@ -168,17 +206,10 @@ def set_nombre_produit(sender, instance, **kwargs):
     #mis ajour des nombre de produits par categorie
     categorie = Categories_Produit.objects.get(pk = instance.categorie.pk) 
     categorie.update_nombre_produit()
-    instance.save()
-    
-@receiver(post_save, sender=Stock)
-def initialisation_stock(sender, instance, **kwargs):
-    instance.initalisation_stock()
-    instance.save()
+    categorie.save()
 
 @receiver(post_save, sender=Sortie_grossiste)
 def trigger_grossiste(sender, instance, **kwargs):
-    instance.update_prix_total() # mis a jour du prix
-    instance.save()
     
     stock = Stock.objects.get(produit = instance.produit)
     stock.update_sorti(instance)
@@ -186,9 +217,7 @@ def trigger_grossiste(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Sortie_client)
 def trigger_client(sender, instance, **kwargs):
-    instance.update_prix_total() # mis a jour du prix
-    instance.save()
-    
+
     stock = Stock.objects.get(produit = instance.produit)
     stock.update_sorti(instance)
     stock.save()
@@ -196,18 +225,17 @@ def trigger_client(sender, instance, **kwargs):
     
 @receiver(post_save, sender=Entrer)
 def trigger_entrer(sender, instance, **kwargs):
-    instance.update_prix_total()
-    instance.save()
-    
+ 
     stock = Stock.objects.get(produit = instance.produit)
-    stock.update_sorti(instance)
+    stock.update_entrer(instance)
     stock.save()
     
 ################# Pour l'historique ###################
 
 def log_mouvement(sender, instance, created, action):
     model_name = sender.__name__
-    object_name = f"{model_name} {instance.pk}"
+    object = sender.__str__(instance)
+    object_name = f"{model_name} {object} {instance.pk}"
     action_str = "Création" if created else "Mise à jour" if action == "save" else "Suppression"
     
     description = f"{action_str} de {object_name}"
