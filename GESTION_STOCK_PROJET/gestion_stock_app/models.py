@@ -8,10 +8,10 @@ from django.dispatch import receiver
 
 class Fournisseur(models.Model):
 
-    nom_et_prenom = models.CharField( max_length=150)
-    nom_societe = models.CharField( max_length=50)
+    nom_et_prenom = models.CharField( max_length=150, blank=True)
+    nom_societe = models.CharField( max_length=50, blank=True)
     numero = models.CharField(max_length=50)
-    autre_information = models.TextField()
+    autre_information = models.TextField(blank=True)
 
     class Meta:
         verbose_name = ("fournisseur")
@@ -24,9 +24,9 @@ class Fournisseur(models.Model):
 class Grossiste(models.Model):
 
     nom_et_prenom = models.CharField( max_length=150)
-    nom_societe = models.CharField( max_length=50)
+    nom_societe = models.CharField( max_length=50, blank=True)
     numero = models.CharField(max_length=50)
-    autre_information = models.TextField()
+    autre_information = models.TextField(blank=True)
 
     class Meta:
         verbose_name = ("grossiste")
@@ -39,7 +39,7 @@ class Client(models.Model):
 
     nom_et_prenom = models.CharField( max_length=150)
     numero = models.CharField(max_length=50)
-    autre_information = models.TextField()
+    autre_information = models.TextField(blank=True)
 
     class Meta:
         verbose_name = ("Client")
@@ -51,8 +51,8 @@ class Client(models.Model):
 class Categories_Produit(models.Model):
 
     nom_categorie = models.CharField( max_length=150)
-    description = models.TextField()
-    total_produits = models.IntegerField(default=0)
+    description = models.TextField(blank=True)
+    total_produits = models.IntegerField(default=0, blank=True)
 
     class Meta:
         verbose_name = ("Categorie de Produit")
@@ -68,7 +68,7 @@ class Categories_Produit(models.Model):
 class Produit(models.Model):
 
     nom_produit = models.CharField( max_length=150)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     categorie = models.ForeignKey( Categories_Produit, on_delete=models.SET_NULL, null=True )
     prix_en_gros = models.FloatField()
     prix_details = models.FloatField()
@@ -85,11 +85,11 @@ class Stock(models.Model):
     
     produit = models.ForeignKey(Produit, on_delete=models.SET_NULL, null = True)
     total_produit = models.IntegerField()
-    total_produit_restants = models.IntegerField(default=0)
-    total_produit_sortis = models.IntegerField(default=0)
-    total_produit_entrant = models.IntegerField(default=0)
-    seuil_alerte_produit = models.IntegerField(default=5)
-    alerte = models.BooleanField(default=False)
+    total_produit_restants = models.IntegerField( blank=True)
+    total_produit_sortis = models.IntegerField( blank=True)
+    total_produit_entrant = models.IntegerField( blank=True)
+    seuil_alerte_produit = models.IntegerField()
+    alerte = models.BooleanField(default=False, blank=True)
     
     def save(self, *args, **kwargs):
         # Si c'est un nouvel objet, initialise le stock
@@ -123,7 +123,7 @@ class Sortie_grossiste(models.Model):
     produit = models.ForeignKey(Produit, on_delete=models.SET_NULL, null = True)
     grossiste = models.ForeignKey(Grossiste, on_delete=models.SET_NULL, null = True)
     quantite = models.IntegerField()
-    prix_total = models.FloatField()    
+    prix_total = models.FloatField(blank=True)    
     
     class Meta:
         verbose_name = ("Sortie de grossiste")
@@ -147,7 +147,7 @@ class Sortie_client(models.Model):
     produit = models.ForeignKey(Produit, on_delete=models.SET_NULL, null = True)
     client = models.ForeignKey(Client, on_delete=models.SET_NULL, null = True)
     quantite = models.IntegerField()
-    prix_total = models.FloatField()    
+    prix_total = models.FloatField(blank=True)    
     
     class Meta:
         verbose_name = ("Sortie de client")
@@ -172,7 +172,7 @@ class Entrer(models.Model):
     produit = models.ForeignKey(Produit, on_delete=models.SET_NULL, null=True)
     fournisseur = models.ForeignKey(Fournisseur, on_delete=models.SET_NULL, null = True)
     quantite = models.IntegerField()
-    prix_total = models.FloatField()
+    prix_total = models.FloatField(blank=True)
     
     def save(self, *args, **kwargs):
         # Si c'est un nouvel objet, initialise le stock
