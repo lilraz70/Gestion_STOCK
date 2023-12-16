@@ -1,0 +1,16 @@
+{% include 'index.html' %}
+
+  {% load crispy_forms_tags %}
+  {% block content %}
+
+<div style="margin-left: 250px;margin-top:-600px;">
+  <h2>Créer une Catégorie</h2>
+  <form method="post" class="form">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+  </form>
+</div>
+
+{% endblock %}
+

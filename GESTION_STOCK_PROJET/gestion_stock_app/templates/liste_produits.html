@@ -1,0 +1,45 @@
+{% include 'index.html' %}
+{% block content %}
+
+
+<div style="margin-left: 250px;margin-top:-600px;">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Liste des produits</h1>
+    <a href="{% url 'ajouter_produits' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+            class="fas fa-download fa-sm text-white-50"></i> Ajouter un produit</a>
+  </div>
+  
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nom du Produit</th>
+        <th>Description</th>
+        <th>Catégorie</th>
+        <th>Prix en Gros</th>
+        <th>Prix en Détails</th>
+        <th>Prix Fournisseur</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for produit in produits %}
+        <tr>
+          <td>{{ produit.nom_produit }}</td>
+          <td>{{ produit.description }}</td>
+          <td>{{ produit.categorie.nom_categorie }}</td>
+          <td>{{ produit.prix_en_gros }}</td>
+          <td>{{ produit.prix_details }}</td>
+          <td>{{ produit.prix_fournisseur }}</td>
+          <td><a href="{% url 'modifier_produits' produit.pk %}" class="btn btn-primary">
+            <i class="fas fa-edit"></i> <!-- Icône d'édition -->
+        </a></td>
+        
+        <td><a href="{% url 'supprimer_produits' produit.pk %}" class="btn btn-danger">
+            <i class="fas fa-trash-alt"></i> <!-- Icône de suppression -->
+        </a></td>
+        
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

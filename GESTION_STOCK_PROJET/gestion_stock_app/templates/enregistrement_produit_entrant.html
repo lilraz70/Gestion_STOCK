@@ -1,0 +1,13 @@
+{% extends 'index.html' %} 
+
+{% block content %}
+  <h2>{% if action == "add" %}Ajouter{% elif action == "edit" %}Modifier{% endif %} un Produit Entrant</h2>
+  <form method="post" class="form">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">
+      {% if action == "add" %}Ajouter{% elif action == "edit" %}Modifier{% endif %} Produit Entrant
+    </button>
+  </form>
+  <a href="{% url 'liste_produits_entrants' %}" class="btn btn-secondary">Retour à la Liste</a>
+{% endblock %}

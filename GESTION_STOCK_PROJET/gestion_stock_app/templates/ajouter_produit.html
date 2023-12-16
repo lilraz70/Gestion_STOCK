@@ -1,0 +1,12 @@
+{% extends 'index.html' %} 
+{% block content %}
+  <h2>{% if action == "add" %}Ajouter{% elif action == "edit" %}Modifier{% elif action == "delete" %}Supprimer{% endif %} un Produit</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">
+      {% if action == "add" %}Ajouter{% elif action == "edit" %}Modifier{% elif action == "delete" %}Supprimer{% endif %} Produit
+    </button>
+  </form>
+  <a href="{% url 'liste_produits' %}">Retour à la liste des produits</a>
+{% endblock %}

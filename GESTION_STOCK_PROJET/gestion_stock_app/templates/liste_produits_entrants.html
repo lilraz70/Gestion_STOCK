@@ -1,0 +1,37 @@
+{% include 'index.html' %}
+
+<div style="margin-left: 250px;margin-top:-600px;" >
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Liste des produits entrants</h1>
+    <a href="{% url 'enregistrement_produit_entrant' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+            class="fas fa-download fa-sm text-white-50"></i> Ajouter un produit entrant</a>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nom du Produit</th>
+        <th>Fournisseur</th>
+        <th>Quantité</th>
+        <th>Actions</th> 
+      </tr>
+    </thead>
+    <tbody>
+      {% for produit_entrant in produits_entrants %}
+        <tr>
+          <td>{{ produit_entrant.produit }}</td>
+          <td>{{ produit_entrant.fournisseur.nom_et_prenom }}</td>
+          <td>{{ produit_entrant.quantite }}</td>
+          <td>
+            <a href="{% url 'modifier_produit_entrant' produit_entrant.id %}" class="btn btn-primary">
+              <i class="fas fa-edit"></i> <!-- Icône d'édition -->
+            </a>
+            <a href="{% url 'supprimer_produit_entrant' produit_entrant.id %}" class="btn btn-danger">
+              <i class="fas fa-trash-alt"></i> <!-- Icône de suppression -->
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
