@@ -38,6 +38,7 @@
         <th>Nom du Produit</th>
         <th>Grossiste</th>
         <th>Quantité</th>
+        <th>Prix total</th>
         <th>Actions</th> 
       </tr>
     </thead>
@@ -47,6 +48,8 @@
           <td>{{ produit_sortant.produit }}</td>
           <td>{{ produit_sortant.grossiste }}</td>
           <td>{{ produit_sortant.quantite }}</td>
+          <td>{{ produit_sortant.prix_total }}</td>
+
           <td>
             <a href="{% url 'modifier_produit_sortant_grossiste' produit_sortant.id %}" class="btn btn-primary">
               <i class="fas fa-edit"></i> <!-- Icône d'édition -->

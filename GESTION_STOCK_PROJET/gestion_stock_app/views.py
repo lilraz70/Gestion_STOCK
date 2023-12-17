@@ -12,6 +12,9 @@ def dashboard(request):
     nombre_total_produits = produits.count()
     stock = Stock.objects.all()
     nombre_total_stock = produits.count()
+    historique_entries = Historique.objects.all().order_by('-date')[:5]  
+    stocks = Stock.objects.all()
+
 
     
     context = {
@@ -23,10 +26,30 @@ def dashboard(request):
             'nombre_total_produits':nombre_total_produits,
             'stock':stock,
             'nombre_total_stock':nombre_total_stock,
+            'historique_entries': historique_entries,
+            'stocks': stocks,
             
             
         }    
     return render(request,'dashboard.html',context)
+
+def historique(request):
+    historique_entries = Historique.objects.all().order_by('-date')[:20]  
+
+    context = {
+        'historique_entries': historique_entries,
+    }
+
+    return render(request, 'historique.html', context)
+
+def liste_stocks(request):
+    stocks = Stock.objects.all()
+
+    context = {
+        'stocks': stocks,
+    }
+
+    return render(request, 'liste_stocks.html', context)
 
 #les vues des catégories
 def liste_categories(request):

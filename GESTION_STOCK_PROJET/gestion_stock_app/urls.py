@@ -4,6 +4,10 @@ from .views import *
 
 urlpatterns = [
     path('', dashboard, name='dashboard'),
+    path('historique', historique, name='historique'),
+    #path('dash_historique', dash_historique, name='dash_historique'),
+
+
     
     path('category', create_category, name='category'),
     path('liste_categories/', liste_categories, name='liste_categories'),
