@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">
+        {% if 'client' in request.path %}Client{% endif %}
+        {% if 'grossiste' in request.path %}Grossistes{% endif %}
+        {% if 'fournisseur' in request.path %}Fournisseurs{% endif %}
+      </h1>
+      <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <i class="fas fa-download fa-sm text-white-50"></i> Ajouter
+      </a>
+</div>
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h1 class="h3 mb-0 text-gray-800">Liste des
+        {% if 'client' in request.path %}Clients{% endif %}
+        {% if 'grossiste' in request.path %}Grossistes{% endif %}
+        {% if 'fournisseur' in request.path %}Fournisseurs{% endif %}
+      </h1>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Nom et Prenom</th>
+              {% if 'grossiste' in request.path or 'fournisseur' in request.path %}<th>Societe</th>{% endif %}
+              <th>Numero</th>
+              <th>Autre info</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for acteur in acteurs %}
+              <tr>
+                <td>{{ acteur.nom_et_prenom }}</td>
+                {% if 'grossiste' in request.path or 'fournisseur' in request.path %}<th>{{ acteur.nom_societe }}</th>{% endif %}
+                <td>{{ acteur.numero }}</td>
+                <td>{{ acteur.autre_information }}</td>
+                <td>
+                  <a href="#" class="btn btn-primary">
+                    <i class="fas fa-edit"></i> <!-- Icône d'édition -->
+                  </a>
+                  <a href="#" class="btn btn-danger">
+                    <i class="fas fa-trash-alt"></i> <!-- Icône d'édition -->
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+
+{% endblock content%}

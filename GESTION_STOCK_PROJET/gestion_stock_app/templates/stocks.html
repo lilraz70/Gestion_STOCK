@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Stocks</h1>
+      <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <i class="fas fa-download fa-sm text-white-50"></i> Initialiser un nouveau stock
+      </a>
+</div>
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h1 class="h3 mb-0 text-gray-800">Tableau de stock</h1>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Nom du Produit</th>
+              <th>Total</th>
+              <th>Total sortis</th>
+              <th>Total entrant</th>
+              <th>Total restants</th>
+              <th>Seuil d'alerte</th>
+              <th>Etat</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for stock in stocks %}
+              <tr>
+                <td>{{ stock.produit }}</td>
+                <td>{{ stock.total_produit }}</td>
+                <td>{{ stock.total_produit_sortis }}</td>
+                <td>{{ stock.total_produit_entrant }}</td>
+                <td>{{ stock.total_produit_restants }}</td>
+                <td>{{ stock.seuil_alerte_produit }}</td>
+                <td>{% if stock.alerte %}<i class=" btn-danger btn-circle fas fa-check"></i>{% else %}<i class="btn-success btn-circle fas fa-check"></i>{% endif %}</td>
+                <td>
+                  <a href="#" class="btn btn-primary">
+                    <i class="fas fa-edit"></i> <!-- Icône d'édition -->
+                  </a>
+                  
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+
+{% endblock content%}

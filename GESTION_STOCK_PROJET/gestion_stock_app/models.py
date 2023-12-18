@@ -63,6 +63,13 @@ class Categories_Produit(models.Model):
     
     def update_nombre_produit(self): #ici je met a jour le nombre de produits par categorie
         self.total_produits = Produit.objects.filter(categorie = self ).count()
+    def stock(self):
+        produits = Produit.objects.filter(categorie=self)
+        results = 0
+        for produit in produits:
+            results = results + Stock.objects.filter(produit=produit).first().total_produit_restants
+            
+        return results
 
 
 class Produit(models.Model):

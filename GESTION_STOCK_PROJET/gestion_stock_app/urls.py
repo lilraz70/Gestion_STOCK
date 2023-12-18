@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.urls import path
 from .views import *
+from . import views
 
 urlpatterns = [
     path('', dashboard, name='dashboard'),
@@ -19,24 +20,29 @@ urlpatterns = [
     path('liste_produits_entrants/', liste_produits_entrants, name='liste_produits_entrants'),
     path('modifier_produit_entrant/<int:id>', modifier_produit_entrant, name='modifier_produit_entrant'),
     path('supprimer_produit_entrant/<int:id>', supprimer_produit_entrant, name='supprimer_produit_entrant'),
+    
+    path('stocks/', liste_stocks, name="stocks"),
 
     
-    path('liste_produits_sortants/', liste_produits_sortants, name='liste_produits_sortants'),
+    path('liste_produits_sortantss/', liste_produits_sortants, name='liste_produits_sortants'),
     path('enregistrement_produit_sortant/', enregistrement_produit_sortant, name='enregistrement_produit_sortant'),
     path('modifier_produit_sortant/<int:id>', modifier_produit_sortant, name='modifier_produit_sortant'),
     path('supprimer_produit_sortant/<int:id>', supprimer_produit_sortant, name='supprimer_produit_sortant'),
     
-    path('liste_produits_sortants_grossiste/', liste_produits_sortants_grossiste, name='liste_produits_sortants_grossiste'),
+    path('liste_produits_sortants_grossistes/', liste_produits_sortants_grossiste, name='liste_produits_sortants_grossiste'),
     path('enregistrement_produit_sortant_grossiste/', enregistrement_produit_sortant_grossiste, name='enregistrement_produit_sortant_grossiste'),
     path('modifier_produit_sortant_grossiste/<int:id>', modifier_produit_sortant_grossiste, name='modifier_produit_sortant_grossiste'),
     path('supprimer_produit_sortant_grossiste/<int:id>', supprimer_produit_sortant_grossiste, name='supprimer_produit_sortant_grossiste'),
 
 
 
-    path('liste_produits/', liste_produits, name='liste_produits'),
+    path('listes_produits/', liste_produits, name='liste_produits'),
     path('ajouter_produits/', ajouter_produit, name='ajouter_produits'),
     path('modifier_produits/<int:pk>', modifier_produit, name='modifier_produits'),
     path('supprimer_produits/<int:pk>', supprimer_produit, name='supprimer_produits'),
+    path('fournisseurs/', fournisseur, name="fournisseurs"),
+    path('liste-clients/', client, name="clients"),
+    path('liste-grossistes/', grossiste, name="grossistes"),
 
 
     

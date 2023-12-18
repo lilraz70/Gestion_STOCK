@@ -2,6 +2,18 @@ from django.shortcuts import get_object_or_404, render,redirect
 from .models import Fournisseur, Grossiste, Client, Categories_Produit, Produit, Stock, Sortie_grossiste, Sortie_client, Entrer
 from .forms import *
 
+def fournisseur(request):
+  fournisseurs = Fournisseur.objects.all()
+  return render(request,'acteurs.html',{'acteurs':fournisseurs})
+
+def grossiste(request):
+  fournisseurs = Grossiste.objects.all()
+  return render(request,'acteurs.html',{'acteurs':fournisseurs})
+
+def client(request):
+  clients = Client.objects.all()
+  return render(request,'acteurs.html',{'acteurs':clients})
+
 def dashboard(request):
     
     produits_entrants = Entrer.objects.all()
@@ -49,7 +61,7 @@ def liste_stocks(request):
         'stocks': stocks,
     }
 
-    return render(request, 'liste_stocks.html', context)
+    return render(request, 'stocks.html', context)
 
 #les vues des catégories
 def liste_categories(request):
