@@ -1,15 +1,31 @@
-{% include 'index.html' %}
-<div style="margin-left: 250px;margin-top:-600px;">
-<div class="card shadow mb-4">
-  <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">Historique</h6>
-  </div>
-  <div class="card-body">
-      <h4 class="small font-weight-bold">
-        <ul>
-          {% for entry in historique_entries %}
-            <li>{{ entry.description }} - {{ entry.date }}</li>
-          {% endfor %}
-        </ul> 
+{% extends 'base.html' %}
+{% block content %}
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Historique</h6>
+    </div>
+    <div class="card-body">
+        <h4 class="small font-weight-bold">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Nom du Produit</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for entry in historique_entries %}
+                <tr>
+                  <td>{{ entry.description }}</td>
+                  <td>{{ entry.date }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </h4>
-</div>
+    </div>
+  </div>
+
+{% endblock content %}
