@@ -40,6 +40,7 @@ urlpatterns = [
     path('ajouter_produits/', ajouter_produit, name='ajouter_produits'),
     path('modifier_produits/<int:pk>', modifier_produit, name='modifier_produits'),
     path('supprimer_produits/<int:pk>', supprimer_produit, name='supprimer_produits'),
+    
     path('fournisseurs/', fournisseur, name="fournisseurs"),
     path('liste-clients/', client, name="clients"),
     path('liste-grossistes/', grossiste, name="grossistes"),

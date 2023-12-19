@@ -1,12 +1,48 @@
-{% extends 'index.html' %} 
+{% extends 'base.html' %}
+
 {% block content %}
-  <h2>{% if action == "add" %}Ajouter{% elif action == "edit" %}Modifier{% elif action == "delete" %}Supprimer{% endif %} un Produit</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">
-      {% if action == "add" %}Ajouter{% elif action == "edit" %}Modifier{% elif action == "delete" %}Supprimer{% endif %} Produit
-    </button>
-  </form>
-  <a href="{% url 'liste_produits' %}">Retour à la liste des produits</a>
+  <div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-lg mt-5">
+      <div class="card-header"><h2 class="text-center font-weight-light my-4">{% if action == "add" %}Ajouter{% elif action == "edit" %}Modifier{% elif action == "delete" %}Supprimer{% endif %} Ajouter un produit</h2></div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+          <div class="row mb-3">
+            <div class="col-md-6">
+              Nom du produit
+              {{ form.nom_produit }}
+            </div>
+            <div class="col-md-6">
+              Description
+              {{ form.description }}
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              Catégorie
+              {{ form.categorie }}
+            </div>
+            <div class="col-md-6">
+              Prix en gros
+              {{ form.prix_en_gros }}
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              Prix en détail
+              {{ form.prix_details }}
+            </div>
+            <div class="col-md-6">
+              Prix fournisseur
+              {{ form.prix_fournisseur }}
+            </div>
+          </div>
+          <button class="btn btn-primary" type="submit">
+            {% if action == "add" %}Ajouter{% elif action == "edit" %}Modifier{% elif action == "delete" %}Supprimer{% endif %} Enregistrer
+          </button>
+        </form>
+        <a href="{% url 'liste_produits' %}" class="btn btn-secondary mt-3">Retour à la liste des produits</a>
+      </div>
+    </div>
+  </div>
 {% endblock %}

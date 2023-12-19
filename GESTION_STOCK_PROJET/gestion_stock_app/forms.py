@@ -23,7 +23,10 @@ class ProduitForm(forms.ModelForm):
     class Meta:
         model = Produit
         fields = ['nom_produit', 'description', 'categorie', 'prix_en_gros', 'prix_details', 'prix_fournisseur']
-
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+                 
+            
 class SortantClientForm(forms.ModelForm):
     class Meta:
         model = Sortie_client
