@@ -66,6 +66,10 @@ def liste_stocks(request):
 #les vues des catégories
 def liste_categories(request):
     categories = Categories_Produit.objects.all()
+    for category in categories:
+        category.update_nombre_produit()
+        category.save()
+    categories = Categories_Produit.objects.all()
     return render(request, 'liste_categories.html', {'categories': categories})
 
 def create_category(request):

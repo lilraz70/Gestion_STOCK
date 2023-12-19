@@ -62,12 +62,13 @@ class Categories_Produit(models.Model):
         return self.nom_categorie
     
     def update_nombre_produit(self): #ici je met a jour le nombre de produits par categorie
-        self.total_produits = Produit.objects.filter(categorie = self ).count()
+        self.total_produits = Produit.objects.filter(categorie_id = self.pk ).count()
+    
     def stock(self):
         produits = Produit.objects.filter(categorie=self)
         results = 0
         for produit in produits:
-            results = results + Stock.objects.filter(produit=produit).first().total_produit_restants
+            results = results + Stock.objects.filter(produit=produit).first().total_produit_restants if Stock.objects.filter(produit=produit).count() != 0 else 0
             
         return results
 
@@ -90,18 +91,21 @@ class Produit(models.Model):
 
 class Stock(models.Model):
     
-    produit = models.ForeignKey(Produit, on_delete=models.SET_NULL, null = True)
-    total_produit = models.IntegerField()
-    total_produit_restants = models.IntegerField( blank=True)
-    total_produit_sortis = models.IntegerField( blank=True)
-    total_produit_entrant = models.IntegerField( blank=True)
-    seuil_alerte_produit = models.IntegerField()
+    produit = models.OneToOneField(Produit, on_delete=models.CASCADE, null = True)
+    total_produit = models.IntegerField(blank=True, default=0)
+    total_produit_restants = models.IntegerField( blank=True, default=0)
+    total_produit_sortis = models.IntegerField( blank=True, default=0)
+    total_produit_entrant = models.IntegerField( blank=True, default=0)
+    seuil_alerte_produit = models.IntegerField(default=5)
     alerte = models.BooleanField(default=False, blank=True)
     
     def save(self, *args, **kwargs):
         # Si c'est un nouvel objet, initialise le stock
         if not self.pk:
             self.initalisation_stock()
+        else:
+            if self.total_produit_restants <= self.seuil_alerte_produit:
+                self.seuil_alerte_produit = True
         super().save(*args, **kwargs)
     
     def initalisation_stock(self):
