@@ -14,6 +14,17 @@ def client(request):
   clients = Client.objects.all()
   return render(request,'acteurs.html',{'acteurs':clients})
 
+def alert(request):
+    stocks = Stock.objects.all()
+    for stock in stocks:
+        if stock.total_produit_restants <= stock.seuil_alerte_produit and stock.alerte == False:
+            Stock.objects.filter(id = stock.id).update(alerte = True)
+        if stock.total_produit_restants > stock.seuil_alerte_produit and stock.alerte == True:
+            Stock.objects.filter(id = stock.id).update(alerte = False)
+    seuil_stock = Stock.objects.filter(alerte=True)
+    notification = [f"Seuil de {produit.produit.nom_produit} arriver" for produit in seuil_stock]
+    return render(request,"_partiel/_notifications.html",{"notifications": notification})
+
 def dashboard(request):
     
     produits_entrants = Entrer.objects.all()
@@ -22,7 +33,7 @@ def dashboard(request):
     nombre_produits_sortants_client = produits_sortants_client.count()
     produits = Produit.objects.all()
     nombre_total_produits = produits.count()
-    stock = Stock.objects.all()
+    stock = Stock.objects.all() 
     nombre_total_stock = produits.count()
     historique_entries = Historique.objects.all().order_by('-date')[:5]  
     stocks = Stock.objects.all()

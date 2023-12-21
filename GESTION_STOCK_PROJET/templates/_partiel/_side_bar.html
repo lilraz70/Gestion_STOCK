@@ -93,6 +93,7 @@
       </a>
       <div id="collapseUtilities" class="collapse {% if 'liste-clients' in request.path or 'liste-grossistes' in request.path %} show {% endif %}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Informations:</h6>
               <a class="collapse-item {% if 'liste-grossistes' in request.path %} active {% endif %}" href="{% url 'grossistes' %}">Grossistes</a>
               <a class="collapse-item {% if 'liste-clients' in request.path %} active {% endif %}" href="{% url 'clients' %}">Clients</a>
           </div>

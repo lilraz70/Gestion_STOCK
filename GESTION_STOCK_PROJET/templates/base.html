@@ -77,6 +77,37 @@
   <!-- Page level custom scripts -->
   <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
   <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+  <script>
+    $(document).ready(function(){
+      $.ajax({
+        url: "{% url 'notifications' %}",
+        error: err => {
+            console.log();
+            alert("Une erreur c'est produite.");
+        },
+        success: function(resp) {
+            if (resp) {
+                
+                $('#notifications').html(resp);
+                
+            }
+        }
+    }) ; 
+    });
+    
+    $("#recherche").on('input', function(){
+      var mot_rechercher = $(this).val().toLowerCase();
+      $(".champ").each(function(){
+          var champ = $(this).text().toLocaleLowerCase();
+          if(champ.includes(mot_rechercher)){
+              $(this).show();
+          }
+          else{
+              $(this).hide();
+          }
+      })
+  });
+  </script>
   {% block script %}{% endblock script %}
 
 </body>

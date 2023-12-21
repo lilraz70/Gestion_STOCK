@@ -44,11 +44,8 @@ urlpatterns = [
     path('fournisseurs/', fournisseur, name="fournisseurs"),
     path('liste-clients/', client, name="clients"),
     path('liste-grossistes/', grossiste, name="grossistes"),
-
-
     
-
-
+    path('notifications/', alert, name="notifications"),
 
 
 

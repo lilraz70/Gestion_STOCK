@@ -7,7 +7,7 @@
         {% if 'grossiste' in request.path %}Grossistes{% endif %}
         {% if 'fournisseur' in request.path %}Fournisseurs{% endif %}
       </h1>
-      <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+      <a href="{% if 'client' in request.path %}Clients{% elif 'grossiste' in request.path %}Grossistes {% elif 'fournisseur' in request.path %}Fournisseurs{% endif %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
         <i class="fas fa-download fa-sm text-white-50"></i> Ajouter
       </a>
 </div>
@@ -33,7 +33,7 @@
           </thead>
           <tbody>
             {% for acteur in acteurs %}
-              <tr>
+              <tr class="champ">
                 <td>{{ acteur.nom_et_prenom }}</td>
                 {% if 'grossiste' in request.path or 'fournisseur' in request.path %}<th>{{ acteur.nom_societe }}</th>{% endif %}
                 <td>{{ acteur.numero }}</td>
