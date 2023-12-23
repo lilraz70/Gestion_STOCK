@@ -65,6 +65,7 @@ def historique(request):
 
     return render(request, 'historique.html', context)
 
+#les vues pour les stocks
 def liste_stocks(request):
     stocks = Stock.objects.all()
 
@@ -73,6 +74,32 @@ def liste_stocks(request):
     }
 
     return render(request, 'stocks.html', context)
+
+def ajouter_stock(request):
+    if request.method == 'POST':
+        form = StockForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('stocks')
+    else:
+        form = StockForm()
+    return render(request, 'ajouter_stock.html', {'form': form})
+
+def modifier_stock(request, stock_id):
+    stock = get_object_or_404(Stock, pk=stock_id)
+    if request.method == 'POST':
+        form = StockForm(request.POST, instance=stock)
+        if form.is_valid():
+            form.save()
+            return redirect('stocks')
+    else:
+        form = StockForm(instance=stock)
+    return render(request, 'modifier_stock.html', {'form': form, 'stock': stock})
+
+def supprimer_stock(request, stock_id):
+    stock = get_object_or_404(Stock, pk=stock_id)
+    stock.delete()
+    return redirect('stocks')
 
 #les vues des catégories
 def liste_categories(request):

@@ -13,11 +13,11 @@ class EntrerProduitForm(forms.ModelForm):
     class Meta:
         model = Entrer
         fields = ['produit', 'fournisseur', 'quantite']
-
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['quantite'].widget.attrs.update({'class': 'form-control', 'min': 1})
-
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
 
 class ProduitForm(forms.ModelForm):
     class Meta:
@@ -25,16 +25,35 @@ class ProduitForm(forms.ModelForm):
         fields = ['nom_produit', 'description', 'categorie', 'prix_en_gros', 'prix_details', 'prix_fournisseur']
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
                  
             
 class SortantClientForm(forms.ModelForm):
     class Meta:
         model = Sortie_client
         fields = ['produit','client', 'quantite', 'prix_total']
-
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+    
 class SortantGrossisteForm(forms.ModelForm):
     class Meta:
         model = Sortie_grossiste
         fields = ['produit','grossiste', 'quantite', 'prix_total']
-
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
     
+
+class StockForm(forms.ModelForm):
+    class Meta:
+        model = Stock
+        fields = '__all__'  
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})

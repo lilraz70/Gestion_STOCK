@@ -14,6 +14,7 @@ urlpatterns = [
     path('liste_categories/', liste_categories, name='liste_categories'),
     path('update_category/<int:id>', update_category, name='update_category'),
     path('delete_category/<int:id>', delete_category, name='delete_category'),
+    path('create_category/', create_category, name='create_category'),
 
 
     path('enregistrement_produit_entrant/', enregistrement_produit_entrant, name='enregistrement_produit_entrant'),
@@ -22,6 +23,7 @@ urlpatterns = [
     path('supprimer_produit_entrant/<int:id>', supprimer_produit_entrant, name='supprimer_produit_entrant'),
     
     path('stocks/', liste_stocks, name="stocks"),
+    path('ajouter_stock/', ajouter_stock, name='ajouter_stock'),
 
     
     path('liste_produits_sortantss/', liste_produits_sortants, name='liste_produits_sortants'),
