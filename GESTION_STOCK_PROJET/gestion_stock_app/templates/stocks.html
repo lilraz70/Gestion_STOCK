@@ -17,7 +17,6 @@
           <thead>
             <tr>
               <th>Nom du Produit</th>
-              <th>Total</th>champ
               <th>Total sortis</th>
               <th>Total entrant</th>
               <th>Total restants</th>
@@ -30,7 +29,6 @@
             {% for stock in stocks %}
               <tr class="champ">
                 <td>{{ stock.produit }}</td>
-                <td>{{ stock.total_produit }}</td>
                 <td>{{ stock.total_produit_sortis }}</td>
                 <td>{{ stock.total_produit_entrant }}</td>
                 <td>{{ stock.total_produit_restants }}</td>

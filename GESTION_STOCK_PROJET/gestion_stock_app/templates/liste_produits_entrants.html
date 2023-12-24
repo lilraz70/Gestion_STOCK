@@ -21,6 +21,8 @@
               <th>Nom du Produit</th>
               <th>Fournisseur</th>
               <th>Quantité</th>
+              <th>Prix unitaire</th>
+              <th>Prix total</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -31,6 +33,8 @@
                 <td>{{ produit_entrant.produit }}</td>
                 <td>{{ produit_entrant.fournisseur.nom_et_prenom }}</td>
                 <td>{{ produit_entrant.quantite }}</td>
+                <td>{{ produit_entrant.produit.prix_fournisseur }}</td>
+                <td>{{ produit_entrant.prix_total }}</td>
                 <td>
                   <a href="{% url 'modifier_produit_entrant' produit_entrant.id %}" class="btn btn-primary">
                     <i class="fas fa-edit"></i> <!-- Icône d'édition -->

@@ -1,10 +1,26 @@
 from django.db import models
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 ########################################################
 #                 Creaion de models                    #
 ########################################################
+
+class AlertHistorique(models.Model):
+
+    intituler = models.CharField(max_length=50)
+    date = models.DateTimeField(auto_now=True, )
+
+    class Meta:
+        verbose_name = ("AlertHistorique")
+        verbose_name_plural = ("AlertHistoriques")
+
+    def __str__(self):
+        return self.intituler
+
+    
+
 
 class Fournisseur(models.Model):
 
@@ -78,11 +94,21 @@ class Produit(models.Model):
     nom_produit = models.CharField( max_length=150)
     description = models.TextField(blank=True)
     categorie = models.ForeignKey( Categories_Produit, on_delete=models.SET_NULL, null=True )
-    prix_en_gros = models.FloatField()
-    prix_details = models.FloatField()
-    prix_fournisseur = models.FloatField()
+    prix_en_gros = models.FloatField(validators=[
+            MaxValueValidator(1000000000000000000),
+            MinValueValidator(1)
+        ])
+    prix_details = models.FloatField(validators=[
+            MaxValueValidator(1000000000000000000),
+            MinValueValidator(1)
+        ])
+    prix_fournisseur = models.FloatField(validators=[
+            MaxValueValidator(1000000000000000000),
+            MinValueValidator(1)
+        ])
 
     class Meta:
+        ordering = ['nom_produit']
         verbose_name = ("Produit")
         verbose_name_plural = ("Produits")
 
@@ -92,11 +118,20 @@ class Produit(models.Model):
 class Stock(models.Model):
     
     produit = models.OneToOneField(Produit, on_delete=models.CASCADE, null = True)
-    total_produit = models.IntegerField(blank=True, default=0)
-    total_produit_restants = models.IntegerField( blank=True, default=0)
+    total_produit = models.IntegerField(blank=True, default=0, validators=[
+            MaxValueValidator(100000),
+            MinValueValidator(0)
+        ])
+    total_produit_restants = models.IntegerField( blank=True, default=0, validators=[
+            MaxValueValidator(100),
+            MinValueValidator(0)
+        ])
     total_produit_sortis = models.IntegerField( blank=True, default=0)
     total_produit_entrant = models.IntegerField( blank=True, default=0)
-    seuil_alerte_produit = models.IntegerField(default=5)
+    seuil_alerte_produit = models.IntegerField(default=5,validators=[
+            MaxValueValidator(100),
+            MinValueValidator(0)
+        ])
     alerte = models.BooleanField(default=False, blank=True)
     
     def save(self, *args, **kwargs):
@@ -133,7 +168,10 @@ class Sortie_grossiste(models.Model):
     
     produit = models.ForeignKey(Produit, on_delete=models.SET_NULL, null = True)
     grossiste = models.ForeignKey(Grossiste, on_delete=models.SET_NULL, null = True)
-    quantite = models.IntegerField()
+    quantite = models.IntegerField(validators=[
+            MaxValueValidator(1000),
+            MinValueValidator(1)
+        ])
     prix_total = models.FloatField(blank=True)    
     
     class Meta:
@@ -157,7 +195,10 @@ class Sortie_client(models.Model):
     
     produit = models.ForeignKey(Produit, on_delete=models.SET_NULL, null = True)
     client = models.ForeignKey(Client, on_delete=models.SET_NULL, null = True)
-    quantite = models.IntegerField()
+    quantite = models.IntegerField(validators=[
+            MaxValueValidator(1000),
+            MinValueValidator(1)
+        ])
     prix_total = models.FloatField(blank=True)    
     
     class Meta:
@@ -182,7 +223,10 @@ class Entrer(models.Model):
     
     produit = models.ForeignKey(Produit, on_delete=models.SET_NULL, null=True)
     fournisseur = models.ForeignKey(Fournisseur, on_delete=models.SET_NULL, null = True)
-    quantite = models.IntegerField()
+    quantite = models.IntegerField(validators=[
+            MaxValueValidator(1000),
+            MinValueValidator(1)
+        ])
     prix_total = models.FloatField(blank=True)
     
     def save(self, *args, **kwargs):
