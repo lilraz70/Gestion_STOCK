@@ -24,6 +24,7 @@ urlpatterns = [
     
     path('stocks/', liste_stocks, name="stocks"),
     path('ajouter_stock/', ajouter_stock, name='ajouter_stock'),
+    path('modifier_stock/<int:stock_id>', modifier_stock, name='modifier_stock'),
 
     
     path('liste_produits_sortantss/', liste_produits_sortants, name='liste_produits_sortants'),
