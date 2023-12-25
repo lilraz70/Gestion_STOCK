@@ -114,11 +114,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'gestion_stock_app/static'),
-]
-
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    # location of your application, should not be public web accessible 
+    './static',
+)
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 

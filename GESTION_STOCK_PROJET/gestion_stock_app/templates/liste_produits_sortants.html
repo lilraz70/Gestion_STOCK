@@ -25,6 +25,7 @@
         <th>Nom du Produit</th>
         <th>Client</th>
         <th>Quantité</th>
+        <th>Prix unitaire</th>
         <th>Prix total</th>
         <th>Actions</th>
       </tr>
@@ -35,6 +36,7 @@
           <td>{{ produit_sortant.produit }}</td>
           <td>{{ produit_sortant.client }}</td>
           <td>{{ produit_sortant.quantite }}</td>
+          <td>{{ produit_sortant.produit.prix_details }}</td>
           <td>{{ produit_sortant.prix_total }}</td>
           <td>
             <a href="{% url 'modifier_produit_sortant' produit_sortant.id %}" class="btn btn-primary">

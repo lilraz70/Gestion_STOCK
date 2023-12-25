@@ -8,6 +8,10 @@ class CategoriesProduitForm(forms.ModelForm):
         widgets = {
             'description': forms.Textarea(attrs={'cols': 80, 'rows': 5}),  
         }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
         
 class EntrerProduitForm(forms.ModelForm):
     class Meta:
@@ -32,7 +36,14 @@ class ProduitForm(forms.ModelForm):
 class SortantClientForm(forms.ModelForm):
     class Meta:
         model = Sortie_client
-        fields = ['produit','client', 'quantite', 'prix_total']
+        fields = ['produit','client', 'quantite', ]
+        widget = {
+            'quantite': forms.IntegerField(validators=[
+            MaxValueValidator(1000),
+            MinValueValidator(1)
+            ])
+                                           
+        }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
@@ -41,7 +52,7 @@ class SortantClientForm(forms.ModelForm):
 class SortantGrossisteForm(forms.ModelForm):
     class Meta:
         model = Sortie_grossiste
-        fields = ['produit','grossiste', 'quantite', 'prix_total']
+        fields = ['produit','grossiste', 'quantite',]
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
@@ -51,7 +62,7 @@ class SortantGrossisteForm(forms.ModelForm):
 class StockForm(forms.ModelForm):
     class Meta:
         model = Stock
-        fields = '__all__'  
+        fields = ('produit', 'total_produit',  'seuil_alerte_produit', )  
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

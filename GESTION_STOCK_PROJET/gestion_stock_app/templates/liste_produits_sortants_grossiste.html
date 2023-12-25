@@ -5,7 +5,7 @@
 
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-  <h1 class="h3 mb-0 text-gray-800">Liste des produits sortants GROSSISTES</h1>
+  <h1 class="h3 mb-0 text-gray-800">Produits sortants GROSSISTES</h1>
   <a href="{% url 'enregistrement_produit_sortant_grossiste' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
           class="fas fa-download fa-sm text-white-50"></i> Sortie Grossiste</a>
 </div>
@@ -20,6 +20,7 @@
         <th>Nom du Produit</th>
         <th>Grossiste</th>
         <th>Quantité</th>
+        <th>Prix unitaire</th>
         <th>Prix total</th>
         <th>Actions</th> 
       </tr>
@@ -30,6 +31,7 @@
           <td>{{ produit_sortant.produit }}</td>
           <td>{{ produit_sortant.grossiste }}</td>
           <td>{{ produit_sortant.quantite }}</td>
+          <td>{{ produit_sortant.produit.prix_en_gros }}</td>
           <td>{{ produit_sortant.prix_total }}</td>
 
           <td>

@@ -1,10 +1,8 @@
 from django.conf import settings
 from django.urls import path
-from .views import *
+from . import views
 
 urlpatterns = [
-
-
-path('login/', login, name='login'),
-    path('logout/', logout, name='logout'),
+    path('login/', views.login, name='login'),
+    path('logout/', views.logout, name='logout'),
 ]
