@@ -31,8 +31,8 @@
                 <td>{{ stock.produit }}</td>
                 <td>{{ stock.total_produit_sortis }}</td>
                 <td>{{ stock.total_produit_entrant }}</td>
-                <td>{{ stock.total_produit_restants }}</td>
-                <td>{{ stock.seuil_alerte_produit }}</td>
+                <td class="text-warning"> <strong> {{ stock.total_produit_restants }}</stromg></td>
+                <td class="text-danger">{{ stock.seuil_alerte_produit }}</td>
                 <td>{% if stock.alerte %}<i class=" btn-danger btn-circle fas fa-info-circle"></i>{% else %}<i class="btn-success btn-circle fas fa-check"></i>{% endif %}</td>
                 <td>
                   <a href="#" class="btn btn-primary">
