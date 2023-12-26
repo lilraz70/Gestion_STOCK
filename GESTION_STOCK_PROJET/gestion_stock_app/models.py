@@ -10,9 +10,10 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class AlertHistorique(models.Model):
 
     intituler = models.CharField(max_length=50)
-    date = models.DateTimeField(auto_now=True, )
+    date = models.DateTimeField(null=True, blank=True)
 
     class Meta:
+        ordering =['-date',]
         verbose_name = ("AlertHistorique")
         verbose_name_plural = ("AlertHistoriques")
 
@@ -133,6 +134,7 @@ class Stock(models.Model):
             MinValueValidator(0)
         ])
     alerte = models.BooleanField(default=False, blank=True)
+    date = models.DateTimeField(blank=True, null=True)
     
     def save(self, *args, **kwargs):
         # Si c'est un nouvel objet, initialise le stock

@@ -1,4 +1,4 @@
-
+{% load index %}
   <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <i class="fas fa-bell fa-fw"></i>
@@ -15,17 +15,17 @@
         {% for notification in notifications %}
         <a class="dropdown-item d-flex align-items-center" href="#">
             <div class="mr-3">
-                <div class="icon-circle bg-warning">
+                <div class="icon-circle{% if  'Produits finis' in notification.intituler %} bg-danger{% else %} bg-warning{% endif %}" >
                     <i class="fas fa-exclamation-triangle text-white"></i>
                 </div>
             </div>
             <div>
-                <div class="small text-gray-500">December 12, 2019</div>
-                <span class="font-weight-bold">{{notification}}</span>
+                <div class="small text-gray-500">{{notification.date}}</div>
+                <span class="font-weight-bold">  {{notification.intituler}}</span>
             </div>
         </a>
         {% endfor %}
-        <a class="dropdown-item text-center small text-gray-500" href="#">Voir tout</a>
+        <a class="dropdown-item text-center small text-gray-500" href="{% url "alerts" %}">Voir tout</a>
       {% else %}
       <a class="dropdown-item text-center small text-gray-500" href="#">Pas de notificatios</a>
       {% endif %}

@@ -3,39 +3,68 @@ from .models import Fournisseur, Grossiste, Client, Categories_Produit, Produit,
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+import datetime
 
-def enregistrement_alert_log(notif):
-    for noti in notif:
-        if  AlertHistorique.objects.filter(intituler = noti).count() != 0:
-            hist = AlertHistorique.objects.create(intituler = noti)
+def enregistrement_alert_log(seuils):
+    for seuil in seuils:
+        if  AlertHistorique.objects.filter(intituler = seuil.produit.nom_produit, date=seuil.date).count() == 0:
+            hist = AlertHistorique.objects.create(intituler = seuil.produit.nom_produit, date = seuil.date)
             hist.save()
             
-        
+        #[f"Seuil de stock de {produit.produit.nom_produit} est atteint" for produit in seuil_stock if produit]
 @login_required
 def fournisseur(request):
   fournisseurs = Fournisseur.objects.all()
   return render(request,'acteurs.html',{'acteurs':fournisseurs})
+
 @login_required
 def grossiste(request):
   fournisseurs = Grossiste.objects.all()
   return render(request,'acteurs.html',{'acteurs':fournisseurs})
+
 @login_required
 def client(request):
   clients = Client.objects.all()
   return render(request,'acteurs.html',{'acteurs':clients})
+
 @login_required
 def alert(request):
     stocks = Stock.objects.all()
     for stock in stocks:
+        date_actu =datetime.datetime.now()
         if stock.total_produit_restants <= stock.seuil_alerte_produit and stock.alerte == False:
-            Stock.objects.filter(id = stock.id).update(alerte = True)
+            Stock.objects.filter(id = stock.id).update(alerte = True, date=date_actu)
         if stock.total_produit_restants > stock.seuil_alerte_produit and stock.alerte == True:
-            Stock.objects.filter(id = stock.id).update(alerte = False)
+            Stock.objects.filter(id = stock.id).update(alerte = False, date=None)
     seuil_stock = Stock.objects.filter(alerte=True)
-    notification = [f"Seuil de {produit.produit.nom_produit} atteint" for produit in seuil_stock]
-    enregistrement_alert_log(notification)
-    total_notif = len(notification)
-    return render(request,"_partiel/_notifications.html",{"notifications": notification, 'total_notif': total_notif})
+    enregistrement_alert_log(seuil_stock)
+    notifications = []
+    index = 0
+    for seuil in seuil_stock:
+        if  AlertHistorique.objects.filter(intituler = seuil.produit.nom_produit, date=seuil.date).count() != 0 and seuil.total_produit_restants != 0 :
+            notifications.append({
+                'id': index,
+                'intituler': f"Seuil de stock de '{seuil.produit.nom_produit}' est atteint",
+                'date': seuil.date
+                })
+            index += 1
+        if seuil.total_produit_restants == 0 :
+            notifications.append({
+                'id': index,
+                'intituler': f"Seuil de stock de '{seuil.produit.nom_produit}' est a 0(Produits finis)",
+                'date': seuil.date
+                })
+            index += 1
+        
+    total_notif = len(notifications)
+    print(datetime.datetime.now())
+    return render(request,"_partiel/_notifications.html",{"notifications": notifications, 'total_notif': total_notif})
+
+@login_required
+def hist_alert(request):
+    historique_alerts = AlertHistorique.objects.all()
+    return render(request,'alert.html',{'alerts':historique_alerts})
+
 @login_required
 def dashboard(request):
     

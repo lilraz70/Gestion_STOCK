@@ -6,7 +6,6 @@ from . import views
 urlpatterns = [
     path('', dashboard, name='dashboard'),
     path('historique', historique, name='historique'),
-    #path('dash_historique', dash_historique, name='dash_historique'),
 
 
     
@@ -49,7 +48,7 @@ urlpatterns = [
     path('liste-grossistes/', grossiste, name="grossistes"),
     
     path('notifications/', alert, name="notifications"),
-
+    path('alerts', hist_alert, name="alerts")
 
 
 

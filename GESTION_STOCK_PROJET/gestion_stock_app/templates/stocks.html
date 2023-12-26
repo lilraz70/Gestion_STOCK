@@ -31,9 +31,16 @@
                 <td>{{ stock.produit }}</td>
                 <td>{{ stock.total_produit_sortis }}</td>
                 <td>{{ stock.total_produit_entrant }}</td>
-                <td class="text-warning"> <strong> {{ stock.total_produit_restants }}</stromg></td>
+                <td class="text-info"> <strong> {{ stock.total_produit_restants }}</stromg></td>
                 <td class="text-danger">{{ stock.seuil_alerte_produit }}</td>
-                <td>{% if stock.alerte %}<i class=" btn-danger btn-circle fas fa-info-circle"></i>{% else %}<i class="btn-success btn-circle fas fa-check"></i>{% endif %}</td>
+                <td>
+                  {% if stock.alerte and stock.total_produit_restants == 0 %}
+                  <div class="icon-circle bg-danger" ><i class=" fas fa-exclamation-triangle text-white"></i></div>
+                  {% elif stock.alerte and stock.total_produit_restants != 0 %}
+                  <div class="icon-circle bg-warning" ><i class=" fas fa-exclamation-triangle text-white"></i></div>
+                  {% else %}
+                  <i class="btn-success btn-circle fas fa-check"></i>
+                  {% endif %}</td>
                 <td>
                   <a href="" class="btn btn-primary">
                     <i class="fas fa-edit"></i> <!-- Icône d'édition -->
