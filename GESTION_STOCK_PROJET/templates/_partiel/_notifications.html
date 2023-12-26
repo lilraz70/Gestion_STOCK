@@ -1,5 +1,5 @@
 {% load index %}
-  <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+  <a class="nav-link dropdown-toggle alert_a" href="#" id="alertsDropdown" role="button"
       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <i class="fas fa-bell fa-fw"></i>
       <!-- Counter - Alerts -->
@@ -13,9 +13,9 @@
       </h6>
       {% if notifications %}
         {% for notification in notifications %}
-        <a class="dropdown-item d-flex align-items-center" href="#">
+        <a class="dropdown-item d-flex align-items-center alert_t" href="#" >
             <div class="mr-3">
-                <div class="icon-circle{% if  'Produits finis' in notification.intituler %} bg-danger{% else %} bg-warning{% endif %}" >
+                <div class="icon-circle alert_f{% if  'Produits finis' in notification.intituler %} bg-danger{% else %} bg-warning{% endif %} ">
                     <i class="fas fa-exclamation-triangle text-white"></i>
                 </div>
             </div>
@@ -32,3 +32,16 @@
       
   </div>
 
+<script>
+    $(document).ready(function(){
+        $(".alert_f").each(function(){
+            if ($(this).hasClass("bg-danger")){
+              console.log("yes")
+              $("#alertsDropdown").trigger("click");
+            }
+            else{
+              console.log("no")
+            }
+          });
+    })
+</script>
