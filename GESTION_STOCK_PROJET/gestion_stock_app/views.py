@@ -186,7 +186,7 @@ def dashboard(request):
     nombre_total_produits = produits.count()
     stock = Stock.objects.all() 
     nombre_total_stock = produits.count()
-    historique_entries = Historique.objects.all().order_by('-date')[:5]  
+    historique_entries = Historique.objects.exclude(description__startswith='Mise à jour de Categories_Produit').order_by('-date')[:5]  
     stocks = Stock.objects.all()
 
 
@@ -208,7 +208,7 @@ def dashboard(request):
     return render(request,'dashboard.html',context)
 @login_required
 def historique(request):
-    historique_entries = Historique.objects.all().order_by('-date')[:20]  
+    historique_entries = Historique.objects.exclude(description__startswith='Mise à jour de Categories_Produit').order_by('-date')[:30]  
 
     context = {
         'historique_entries': historique_entries,
@@ -254,7 +254,7 @@ def modifier_stock(request, stock_id):
             return redirect('stocks')
     else:
         form = StockForm(instance=stock)
-    return render(request, 'modifier_stock.html', {'form': form, 'stock': stock})
+    return render(request, 'ajouter_stock.html', {'form': form, 'stock': stock})
 @login_required
 def supprimer_stock(request, stock_id):
     stock = get_object_or_404(Stock, pk=stock_id)
