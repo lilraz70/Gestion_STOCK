@@ -196,7 +196,8 @@ class Sortie_grossiste(models.Model):
 class Sortie_client(models.Model):
     
     produit = models.ForeignKey(Produit, on_delete=models.SET_NULL, null = True)
-    client = models.ForeignKey(Client, on_delete=models.SET_NULL, null = True)
+    client = models.ForeignKey(Client, on_delete=models.SET_NULL, null = True, blank=True)
+    nom_prenom_client = models.CharField(max_length=550, null = True, blank=True)
     quantite = models.IntegerField(validators=[
             MaxValueValidator(1000),
             MinValueValidator(1)
@@ -215,7 +216,7 @@ class Sortie_client(models.Model):
     
 
     def __str__(self):
-        return self.produit.nom_produit + " - " + self.client.nom_et_prenom
+        return self.produit.nom_produit + " - " + str(self.quantite)
     
     def update_prix_total(self):
         self.prix_total = self.quantite*self.produit.prix_details

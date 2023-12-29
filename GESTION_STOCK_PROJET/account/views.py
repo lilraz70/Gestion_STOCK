@@ -25,5 +25,6 @@ def login(request):
 @login_required
 def logout(request):
     auth.logout(request)
+    messages.success(request, 'deconnection reussi')
     return redirect('login')
 

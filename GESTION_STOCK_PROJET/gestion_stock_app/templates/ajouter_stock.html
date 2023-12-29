@@ -5,8 +5,14 @@
     <div class="card shadow-lg border-0 rounded-lg mt-5">
       <div class="card-header">
         <h2 style="color: #284fc2;">
-          {% if action == "add" %}Ajouter{% elif action == "edit" %}Modifier{% elif action == "delete" %}Supprimer{% endif %} Ajouter un produit
+         
         </h2>
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 style="color: #284fc2;" class="h3 mb-0"> {% if action == "add" %}Ajouter{% elif action == "edit" %}Modifier{% elif action == "delete" %}Supprimer{% endif %} Initialiser un stock </h1>
+              <a href="{% url 'ajouter_produits' %}?next={{request.path}}" class="btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i> Ajouter un nouveau Produit
+              </a>
+        </div>
       </div>
       <div class="card-body">
         <form method="post">

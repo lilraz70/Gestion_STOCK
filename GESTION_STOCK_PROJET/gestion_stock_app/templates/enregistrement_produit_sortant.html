@@ -4,9 +4,15 @@
   <div class="container mt-5">
     <div class="card shadow-lg border-0 rounded-lg mt-5">
       <div class="card-header">
-        <h2 class="text-center font-weight-light my-4">
-          {% if action == "add" %}Ajouter{% elif action == "edit" %}Modifier{% endif %} Une Sortie Client
+        <h2 style="color: #284fc2;">
+         
         </h2>
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 style="color: #284fc2;" class="h3 mb-0"> {% if action == "add" %}Ajouter{% elif action == "edit" %}Modifier{% elif action == "delete" %}Supprimer{% endif %} Ajouter un sortie client </h1>
+              <a href="{% url 'ajouter_produits' %}?next={{request.path}}" class="btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i> Ajouter un nouveau Produit
+              </a>
+        </div>
       </div>
       <div class="card-body">
         <form method="post">
@@ -17,11 +23,15 @@
               {{ form.produit }}
             </div>
             <div class="col-md-6">
-              <label for="{{ form.client.id_for_label }}" class="form-label">Client</label>
+              <label for="{{ form.client.id_for_label }}" class="form-label">Client Frequent</label>
               {{ form.client }}
             </div>
           </div>
           <div class="form-group row">
+            <div class="col-md-6">
+              <label for="{{ form.quantite.id_for_label }}" class="form-label">Client simple(nom et prenom)</label>
+              {{ form.nom_prenom_client }}
+            </div>
             <div class="col-md-6">
               <label for="{{ form.quantite.id_for_label }}" class="form-label">Quantité</label>
               {{ form.quantite }}

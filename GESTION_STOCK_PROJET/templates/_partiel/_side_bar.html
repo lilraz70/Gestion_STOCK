@@ -9,21 +9,21 @@
   </a>
 
   <!-- Divider -->
-  <hr class="sidebar-divider my-0">
+  <hr style="background: yellow" class="sidebar-divider my-0">
 
   <!-- Nav Item - Dashboard -->
-  <li class="nav-item {% if 'dashbord' in request.path %} active {% endif %} ">
+  <li class="nav-item {% if  request.path == '/' %} active {% endif %} ">
       <a class="nav-link" href="{% url 'dashboard' %}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Tableau de bord</span></a>
   </li>
 
   <!-- Divider -->
-  <hr class="sidebar-divider">
+  <hr style="background: yellow" class="sidebar-divider">
 
   <!-- Heading -->
-  <div class="sidebar-heading">
-      Interface
+  <div style="color: yellow" class="sidebar-heading">
+      Generale
   </div>
 
   <!-- Nav Item - Pages Collapse Menu -->
@@ -48,10 +48,10 @@
 </li>
 
   <!-- Divider -->
-  <hr class="sidebar-divider">
+  <hr style="background: yellow" class="sidebar-divider">
 
   <!-- Heading -->
-  <div class="sidebar-heading">
+  <div style="color: yellow" class="sidebar-heading">
       Mouvements
   </div>
 
@@ -77,10 +77,10 @@
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Produits Entrants</span></a>
   </li>
-  <hr class="sidebar-divider">
+  <hr style="background: yellow" class="sidebar-divider">
 
   <!-- Heading -->
-  <div class="sidebar-heading">
+  <div style="color: yellow" class="sidebar-heading">
       Acteurs
   </div>
 
@@ -105,7 +105,13 @@
         <i class="fas fa-fw fa-chart-area"></i>
         <span>Fournisseurs</span></a>
 </li>
-  
+   <!-- Divider -->
+   <hr style="background: red" class="sidebar-divider">
+
+   <!-- Heading -->
+   <div style="color: red" class="sidebar-heading">
+       Notifications
+   </div>
   <!-- Nav Item - Tables -->
   <li class="nav-item">
       <a class="nav-link" href="{% url "alerts" %}">

@@ -1,5 +1,36 @@
 from django import forms
 from .models import *
+from django.db.models import Count
+
+class ClientForm(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = ('nom_et_prenom', 'numero', 'autre_information', )
+       
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+
+class FournisseurForm(forms.ModelForm):
+    class Meta:
+        model = Fournisseur
+        fields = ('nom_et_prenom', 'nom_societe', 'numero', 'autre_information', )
+       
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+            
+class GrossisteForm(forms.ModelForm):
+    class Meta:
+        model = Grossiste
+        fields = ('nom_et_prenom', 'nom_societe', 'numero', 'autre_information', )
+       
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
 
 class CategoriesProduitForm(forms.ModelForm):
     class Meta:
@@ -22,6 +53,7 @@ class EntrerProduitForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
+        self.fields['produit'].queryset = Produit.objects.filter(stock__isnull=False)
 
 class ProduitForm(forms.ModelForm):
     class Meta:
@@ -36,7 +68,7 @@ class ProduitForm(forms.ModelForm):
 class SortantClientForm(forms.ModelForm):
     class Meta:
         model = Sortie_client
-        fields = ['produit','client', 'quantite', ]
+        fields = ['produit', 'client', 'nom_prenom_client', 'quantite', ]
         widget = {
             'quantite': forms.IntegerField(validators=[
             MaxValueValidator(1000),
@@ -48,6 +80,7 @@ class SortantClientForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
+        self.fields['produit'].queryset = Produit.objects.filter(stock__isnull=False)
     
 class SortantGrossisteForm(forms.ModelForm):
     class Meta:
@@ -57,6 +90,7 @@ class SortantGrossisteForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
+        self.fields['produit'].queryset = Produit.objects.filter(stock__isnull=False)
     
 
 class StockForm(forms.ModelForm):
@@ -68,3 +102,4 @@ class StockForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
+        self.fields['produit'].queryset = Produit.objects.filter(stock__isnull=True)

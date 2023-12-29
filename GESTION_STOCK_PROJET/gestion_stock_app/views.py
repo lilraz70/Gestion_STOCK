@@ -13,19 +13,102 @@ def enregistrement_alert_log(seuils):
             
         #[f"Seuil de stock de {produit.produit.nom_produit} est atteint" for produit in seuil_stock if produit]
 @login_required
-def fournisseur(request):
-  fournisseurs = Fournisseur.objects.all()
-  return render(request,'acteurs.html',{'acteurs':fournisseurs})
+def fournisseur(request, id=0):
+    
+    if 'editFournisseur' in request.path and id !=0:
+        instance = get_object_or_404(Fournisseur, pk=id)
+        if request.method == 'POST':
+            form = FournisseurForm(request.POST, instance = instance)
+            if form.is_valid():
+                form.save()
+                return redirect('fournisseurs')
+            form = FournisseurForm(instance=instance)
+            messages.warning(request, "Donnees Invalides")
+            return render(request, 'ajouter_acteurs.html', {'form':form})
+        form = FournisseurForm(instance=instance)
+        return render(request, 'ajouter_acteurs.html', {'form':form})
+    if 'deleteFournisseur' in request.path and id !=0:
+        fournisseur = get_object_or_404(Fournisseur, pk=id)
+        fournisseur.delete()
+        return redirect('fournisseurs')
+    if 'addFournisseur' in request.path:
+        if request.method == 'POST':
+            form = FournisseurForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('fournisseurs')
+            form = FournisseurForm()
+            messages.warning(request, "Donnees Invalides")
+            return render(request, 'ajouter_acteurs.html', {'form':form})
+        form = FournisseurForm()
+        return render(request, 'ajouter_acteurs.html', {'form':form})
+    fournisseurs = Fournisseur.objects.all()
+    return render(request,'acteurs.html',{'acteurs':fournisseurs})
 
 @login_required
-def grossiste(request):
-  fournisseurs = Grossiste.objects.all()
-  return render(request,'acteurs.html',{'acteurs':fournisseurs})
+def grossiste(request, id=0):
+
+    if 'editGrossiste' in request.path and id !=0:
+        instance = get_object_or_404(Grossiste, pk=id)
+        if request.method == 'POST':
+            form = GrossisteForm(request.POST, instance = instance)
+            if form.is_valid():
+                form.save()
+                return redirect('grossistes')
+            form = GrossisteForm(instance=instance)
+            messages.warning(request, "Donnees Invalides")
+            return render(request, 'ajouter_acteurs.html', {'form':form})
+        form = GrossisteForm(instance=instance)
+        return render(request, 'ajouter_acteurs.html', {'form':form})
+    if 'deleteGrossiste' in request.path and id !=0:
+        fournisseur = get_object_or_404(Grossiste, pk=id)
+        fournisseur.delete()
+        return redirect('fournisseurs')
+    if 'addGrossiste' in request.path:
+        if request.method == 'POST':
+            form = GrossisteForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('fournisseurs')
+            form = GrossisteForm()
+            messages.warning(request, "Donnees Invalides")
+            return render(request, 'ajouter_acteurs.html', {'form':form})
+        form = GrossisteForm()
+        return render(request, 'ajouter_acteurs.html', {'form':form})
+    fournisseurs = Grossiste.objects.all()
+    return render(request,'acteurs.html',{'acteurs':fournisseurs})
 
 @login_required
-def client(request):
-  clients = Client.objects.all()
-  return render(request,'acteurs.html',{'acteurs':clients})
+def client(request, id=0):
+    if 'editClient' in request.path and id !=0:
+        instance = get_object_or_404(Client, pk=id)
+        if request.method == 'POST':
+            form = ClientForm(request.POST, instance = instance)
+            if form.is_valid():
+                form.save()
+                return redirect('clients')
+            form = ClientForm(instance=instance)
+            messages.warning(request, "Donnees Invalides")
+            return render(request, 'ajouter_acteurs.html', {'form':form})
+        form = ClientForm(instance=instance)
+        return render(request, 'ajouter_acteurs.html', {'form':form})
+    if 'deleteClient' in request.path and id !=0:
+        fournisseur = get_object_or_404(Client, pk=id)
+        fournisseur.delete()
+        return redirect('clients')
+    if 'addClient' in request.path:
+        if request.method == 'POST':
+            form = ClientForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('clients')
+            form = ClientForm()
+            messages.warning(request, "Donnees Invalides")
+            return render(request, 'ajouter_acteurs.html', {'form':form})
+        form = ClientForm()
+        return render(request, 'ajouter_acteurs.html', {'form':form})
+    clients = Client.objects.all()
+    return render(request,'acteurs.html',{'acteurs':clients})
 
 @login_required
 def alert(request):
@@ -123,6 +206,9 @@ def ajouter_stock(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Operation reussit")
+            next_param = request.GET.get('next', None)
+            if next_param:
+                return redirect(request.GET['next'])
             return redirect('stocks')
     else:
         form = StockForm()
@@ -135,6 +221,9 @@ def modifier_stock(request, stock_id):
         if form.is_valid():
             form.save()
             messages.success(request, "Operation reussit")
+            next_param = request.GET.get('next', None)
+            if next_param:
+                return redirect(request.GET['next'])
             return redirect('stocks')
     else:
         form = StockForm(instance=stock)
@@ -144,6 +233,9 @@ def supprimer_stock(request, stock_id):
     stock = get_object_or_404(Stock, pk=stock_id)
     stock.delete()
     messages.success(request, "Operation reussit")
+    next_param = request.GET.get('next', None)
+    if next_param:
+                return redirect(request.GET['next'])
     return redirect('stocks')
 
 #les vues des catégories
@@ -163,6 +255,9 @@ def create_category(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Operation reussit")
+            next_param = request.GET.get('next', None)
+            if next_param:
+                return redirect(request.GET['next'])
             return redirect('liste_categories')  
     else:
         form = CategoriesProduitForm()
@@ -178,6 +273,9 @@ def update_category(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Operation reussit")
+            next_param = request.GET.get('next', None)
+            if next_param:
+                return redirect(request.GET['next'])
             return redirect('liste_categories')  
     else:
         form = CategoriesProduitForm(instance=category)
@@ -189,6 +287,9 @@ def delete_category(request, id):
     category = get_object_or_404(Categories_Produit, id=id)
     category.delete()
     messages.success(request, "Operation reussit")
+    next_param = request.GET.get('next', None)
+    if next_param:
+                return redirect(request.GET['next'])
     return redirect('liste_categories')
 
 #les vues des produits entrants
@@ -228,6 +329,9 @@ def modifier_produit_entrant(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Operation reussit")
+            next_param = request.GET.get('next', None)
+            if next_param:
+                return redirect(request.GET['next'])
             return redirect('liste_produits_entrants')
     else:
         form = EntrerProduitForm(instance=entrer_produit)
@@ -241,6 +345,9 @@ def supprimer_produit_entrant(request, id):
     if request.method == 'POST':
         entrer_produit.delete()
         messages.success(request, "Operation reussit")
+        next_param = request.GET.get('next', None)
+        if next_param:
+                return redirect(request.GET['next'])
         return redirect('liste_produits_entrants')
 
     return render(request, 'enregistrement_produit_entrant.html', {'entrer_produit': entrer_produit})
@@ -273,6 +380,9 @@ def enregistrement_produit_sortant(request):
             entrer_produit.update_prix_total()  
             entrer_produit.save()
             messages.success(request, "Operation reussit")
+            next_param = request.GET.get('next', None)
+            if next_param:
+                return redirect(request.GET['next'])
             return redirect('liste_produits_sortants')  
     else:
         form = SortantClientForm()
@@ -288,6 +398,9 @@ def modifier_produit_sortant(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Operation reussit")
+            next_param = request.GET.get('next', None)
+            if next_param:
+                return redirect(request.GET['next'])
             return redirect('liste_produits_sortants')
     else:
         form = SortantClientForm(instance=sortie_client_produit)
@@ -301,6 +414,9 @@ def supprimer_produit_sortant(request, id):
     if request.method == 'POST':
         sortie_client_produit.delete()
         messages.success(request, "Operation reussit")
+        next_param = request.GET.get('next', None)
+        if next_param:
+                return redirect(request.GET['next'])
         return redirect('liste_produits_sortants')
 
     return render(request, 'enregistrement_produit_sortant.html', {'sortie_client_produit': sortie_client_produit})
@@ -333,6 +449,9 @@ def enregistrement_produit_sortant_grossiste(request):
             entrer_produit.update_prix_total()  
             entrer_produit.save()
             messages.success(request, "Operation reussit")
+            next_param = request.GET.get('next', None)
+            if next_param:
+                return redirect(request.GET['next'])
             return redirect('liste_produits_sortants_grossiste')  
     else:
         form = SortantGrossisteForm()
@@ -348,6 +467,9 @@ def modifier_produit_sortant_grossiste(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Operation reussit")
+            next_param = request.GET.get('next', None)
+            if next_param:
+                return redirect(request.GET['next'])
             return redirect('liste_produits_sortants')
     else:
         form = SortantGrossisteForm(instance=sortie_grossiste_produit)
@@ -361,6 +483,9 @@ def supprimer_produit_sortant_grossiste(request, id):
     if request.method == 'POST':
         sortie_client_produit.delete()
         messages.success(request, "Operation reussit")
+        next_param = request.GET.get('next', None)
+        if next_param:
+            return redirect(request.GET['next'])
         return redirect('liste_produits_sortants_grossiste')
 
     return render(request, 'enregistrement_produit_sortant_grossiste.html', {'sortie_client_produit': sortie_client_produit})
@@ -378,6 +503,9 @@ def ajouter_produit(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Operation reussit")
+            next_param = request.GET.get('next', None)
+            if next_param:
+                return redirect(request.GET['next'])
             return redirect('liste_produits')  
     else:
         form = ProduitForm()
@@ -393,6 +521,9 @@ def modifier_produit(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, "Operation reussit")
+            next_param = request.GET.get('next', None)
+            if next_param:
+                return redirect(request.GET['next'])
             return redirect('liste_produits')  
     else:
         form = ProduitForm(instance=produit)
@@ -406,6 +537,9 @@ def supprimer_produit(request, pk):
     if request.method == 'POST':
         produit.delete()
         messages.success(request, "Operation reussit")
+        next_param = request.GET.get('next', None)
+        if next_param:
+                return redirect(request.GET['next'])
         return redirect('liste_produits')  
 
     return render(request, 'ajouter_produit.html', {'produit': produit})

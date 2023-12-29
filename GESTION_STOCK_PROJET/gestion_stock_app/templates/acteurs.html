@@ -7,8 +7,11 @@
         {% if 'grossiste' in request.path %}Grossistes{% endif %}
         {% if 'fournisseur' in request.path %}Fournisseurs{% endif %}
       </h1>
-      <a href="{% if 'client' in request.path %}Clients{% elif 'grossiste' in request.path %}Grossistes {% elif 'fournisseur' in request.path %}Fournisseurs{% endif %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-        <i class="fas fa-download fa-sm text-white-50"></i> Ajouter
+      <a href="{% if 'client' in request.path %}{% url 'addClient' %}{% elif 'grossiste' in request.path %}{% url 'addGrossiste' %} {% elif 'fournisseur' in request.path %}{% url 'addFournisseur' %}{% endif %}" 
+       class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <i class="fas fa-download fa-sm text-white-50"></i> Ajouter un {% if 'client' in request.path %}Client{% endif %}
+        {% if 'grossiste' in request.path %}Grossiste{% endif %}
+        {% if 'fournisseur' in request.path %}Fournisseur{% endif %}
       </a>
 </div>
   <div class="card shadow mb-4">
@@ -39,10 +42,10 @@
                 <td>{{ acteur.numero }}</td>
                 <td>{{ acteur.autre_information }}</td>
                 <td>
-                  <a href="#" class="btn btn-primary">
+                  <a href="{% if 'client' in request.path %}{% url 'editClient' acteur.id %}{% elif 'grossiste' in request.path %}{% url 'editGrossiste' acteur.id %} {% elif 'fournisseur' in request.path %}{% url 'editFournisseur' acteur.id %}{% endif %}" class="btn btn-primary">
                     <i class="fas fa-edit"></i> <!-- Icône d'édition -->
                   </a>
-                  <a href="#" class="btn btn-danger">
+                  <a href="{% if 'client' in request.path %}{% url 'deleteClient' acteur.id %}{% elif 'grossiste' in request.path %}{% url 'deleteGrossiste' acteur.id %} {% elif 'fournisseur' in request.path %}{% url 'deleteFournisseur' acteur.id %}{% endif %}" class="btn btn-danger">
                     <i class="fas fa-trash-alt"></i> <!-- Icône d'édition -->
                   </a>
                 </td>
