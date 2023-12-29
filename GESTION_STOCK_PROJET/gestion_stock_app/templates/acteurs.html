@@ -24,6 +24,7 @@
     </div>
     <div class="card-body">
       <div class="table-responsive">
+        {% if acteurs %}
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
@@ -53,6 +54,9 @@
             {% endfor %}
           </tbody>
         </table>
+        {% else %}
+            <h1 style="text-align: center">liste vide</h1>
+        {% endif %}
       </div>
     </div>
   </div>

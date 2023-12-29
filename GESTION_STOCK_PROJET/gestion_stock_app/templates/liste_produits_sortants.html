@@ -1,12 +1,6 @@
 {% extends 'base.html' %}
-
-
 {% block content %}
-
   <div class="row">
-    
-
-    
   </div>
   <div class="d-sm-flex align-items-center justify-content-between mb-4">
       <h1 class="h3 mb-0 text-gray-800">Produits sortants CLIENT</h1>
@@ -14,11 +8,10 @@
               class="fas fa-download fa-sm text-white-50"></i> Sortie Client</a>
     </div>
   <div class="card shadow mb-4">
-    
     <div class="card-header py-3">
       <h1 class="h3 mb-0 text-gray-800">Liste des produits sortants CLIENT</h1>
     </div>
-    
+    {% if sortants_clients %}
   <table class="table">
     <thead>
       <tr>
@@ -50,6 +43,9 @@
       {% endfor %}
     </tbody>
   </table>
+  {% else %}
+  <h2 style="text-align: center">La liste vide</h2>
+            {% endif %}
 </div>
 
 {% endblock content %}

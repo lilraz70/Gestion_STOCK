@@ -27,16 +27,16 @@
   </div>
 
   <!-- Nav Item - Pages Collapse Menu -->
-  <li class="nav-item {% if 'listes_produit' in request.path or 'categorie' in request.path%} active {% endif %}">
+  <li class="nav-item {% if 'listes_produit' in request.path or 'categorie' in request.path or 'create_category' in request.path or 'update_category' in request.path or 'ajouter_produits' in request.path or 'modifier_produits' in request.path %} active {% endif %}">
       <a class="nav-link collapsed" href='#' data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
           <span>Produits</span>
       </a>
-      <div id="collapseTwo" class="collapse {% if 'listes_produit' in request.path or 'categorie' in request.path%} show {% endif %}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div id="collapseTwo" class="collapse {% if 'listes_produit' in request.path or 'categorie' in request.path or 'ajouter_produits' in request.path or 'modifier_produits' in request.path or 'create_category' in request.path or 'update_category' in request.path %} show {% endif %}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
               <h6 class="collapse-header">Informations Produits:</h6>
-              <a class="collapse-item {% if 'listes_produit' in request.path %} active {% endif %} " href="{% url 'liste_produits' %}">Liste des produits</a>
-              <a class="collapse-item {% if 'categorie' in request.path %} active {% endif %} " href="{% url 'liste_categories' %}">Catégories</a>
+              <a class="collapse-item {% if 'listes_produit' in request.path or 'ajouter_produits' in request.path or 'modifier_produits' in request.path %} active {% endif %} " href="{% url 'liste_produits' %}">Liste des produits</a>
+              <a class="collapse-item {% if 'categorie' in request.path or 'create_category' in request.path or 'update_category' in request.path %} active {% endif %} " href="{% url 'liste_categories' %}">Catégories</a>
           </div>
       </div>
   </li>
@@ -62,7 +62,7 @@
           <i class="fas fa-fw fa-folder"></i>
           <span>Sortis</span>
       </a>
-      <div id="collapsePages" class="collapse {% if 'sortants_grossistes' in request.path or 'sortants' in request.path %} show {% endif %}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div id="collapsePages" class="collapse {% if 'sortants_grossistes' in request.path or 'sortant' in request.path %} show {% endif %}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Informations Sortis:</h6>
               <a class="collapse-item {% if 'sortants_grossistes' in request.path %} active {% endif %}" href="{% url 'liste_produits_sortants_grossiste' %}">Sortis grossistes</a>
@@ -72,8 +72,8 @@
   </li>
 
   <!-- Nav Item - Charts -->
-  <li class="nav-item {% if 'liste_produits_entrants' in request.path %} active {% endif %}">
-      <a class="nav-link" href="{% url "liste_produits_entrants" %}">
+  <li class="nav-item {% if 'liste_produits_entrants' in request.path or 'produit_entrant' in request.path %} active {% endif %}">
+      <a class="nav-link" href="{% url 'liste_produits_entrants' %}">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Produits Entrants</span></a>
   </li>

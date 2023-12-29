@@ -12,7 +12,7 @@
       </h6>
       {% if notifications %}
         {% for notification in notifications %}
-        <a class="dropdown-item d-flex align-items-center alert_t" href="#" >
+        <a class="dropdown-item d-flex align-items-center alert_t" href="{% url 'stocks' %}" >
             <div class="mr-3">
                 <div class="icon-circle alert_f{% if  'Produits finis' in notification.intituler %} bg-danger{% else %} bg-warning{% endif %} ">
                     <i class="fas fa-exclamation-triangle text-white"></i>

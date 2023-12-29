@@ -15,6 +15,7 @@
     </div>
     <div class="card-body">
       <div class="table-responsive">
+        {% if produits_entrants %}
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
@@ -47,6 +48,9 @@
             {% endfor %}
           </tbody>
         </table>
+        {% else %}
+        <h2 style="text-align: center">La liste vide</h2>
+        {% endif %}
       </div>
     </div>
   </div>

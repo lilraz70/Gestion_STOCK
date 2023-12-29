@@ -21,6 +21,10 @@ def fournisseur(request, id=0):
             form = FournisseurForm(request.POST, instance = instance)
             if form.is_valid():
                 form.save()
+                messages.success(request, "Fournisseur editer avec succes")
+                next_param = request.GET.get('next', None)
+                if next_param:
+                    return redirect(request.GET['next'])
                 return redirect('fournisseurs')
             form = FournisseurForm(instance=instance)
             messages.warning(request, "Donnees Invalides")
@@ -30,12 +34,17 @@ def fournisseur(request, id=0):
     if 'deleteFournisseur' in request.path and id !=0:
         fournisseur = get_object_or_404(Fournisseur, pk=id)
         fournisseur.delete()
+        messages.success(request, "Fournisseur supprimmer avec succes")
         return redirect('fournisseurs')
     if 'addFournisseur' in request.path:
         if request.method == 'POST':
             form = FournisseurForm(request.POST)
             if form.is_valid():
                 form.save()
+                messages.success(request, "Fournisseur ajouter avec succes")
+                next_param = request.GET.get('next', None)
+                if next_param:
+                    return redirect(request.GET['next'])
                 return redirect('fournisseurs')
             form = FournisseurForm()
             messages.warning(request, "Donnees Invalides")
@@ -54,6 +63,10 @@ def grossiste(request, id=0):
             form = GrossisteForm(request.POST, instance = instance)
             if form.is_valid():
                 form.save()
+                messages.success(request, "Grossiste editer avec succes")
+                next_param = request.GET.get('next', None)
+                if next_param:
+                    return redirect(request.GET['next'])
                 return redirect('grossistes')
             form = GrossisteForm(instance=instance)
             messages.warning(request, "Donnees Invalides")
@@ -63,12 +76,17 @@ def grossiste(request, id=0):
     if 'deleteGrossiste' in request.path and id !=0:
         fournisseur = get_object_or_404(Grossiste, pk=id)
         fournisseur.delete()
+        messages.success(request, "Grossiste supprimer avec succes")
         return redirect('fournisseurs')
     if 'addGrossiste' in request.path:
         if request.method == 'POST':
             form = GrossisteForm(request.POST)
             if form.is_valid():
                 form.save()
+                messages.success(request, "Grossiste ajouter avec succes")
+                next_param = request.GET.get('next', None)
+                if next_param:
+                    return redirect(request.GET['next'])
                 return redirect('fournisseurs')
             form = GrossisteForm()
             messages.warning(request, "Donnees Invalides")
@@ -86,6 +104,10 @@ def client(request, id=0):
             form = ClientForm(request.POST, instance = instance)
             if form.is_valid():
                 form.save()
+                messages.success(request, "Client editer avec succes")
+                next_param = request.GET.get('next', None)
+                if next_param:
+                    return redirect(request.GET['next'])
                 return redirect('clients')
             form = ClientForm(instance=instance)
             messages.warning(request, "Donnees Invalides")
@@ -95,12 +117,17 @@ def client(request, id=0):
     if 'deleteClient' in request.path and id !=0:
         fournisseur = get_object_or_404(Client, pk=id)
         fournisseur.delete()
+        messages.success(request, "CLient supprimer avec succes")
         return redirect('clients')
     if 'addClient' in request.path:
         if request.method == 'POST':
             form = ClientForm(request.POST)
             if form.is_valid():
                 form.save()
+                messages.success(request, "Client ajouter avec succes")
+                next_param = request.GET.get('next', None)
+                if next_param:
+                    return redirect(request.GET['next'])
                 return redirect('clients')
             form = ClientForm()
             messages.warning(request, "Donnees Invalides")
@@ -205,7 +232,7 @@ def ajouter_stock(request):
         form = StockForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Operation reussit")
+            messages.success(request, "Sotck Initialiser avec succes")
             next_param = request.GET.get('next', None)
             if next_param:
                 return redirect(request.GET['next'])
@@ -220,7 +247,7 @@ def modifier_stock(request, stock_id):
         form = StockForm(request.POST, instance=stock)
         if form.is_valid():
             form.save()
-            messages.success(request, "Operation reussit")
+            messages.success(request, "Stock modifier avec succes")
             next_param = request.GET.get('next', None)
             if next_param:
                 return redirect(request.GET['next'])
@@ -232,7 +259,7 @@ def modifier_stock(request, stock_id):
 def supprimer_stock(request, stock_id):
     stock = get_object_or_404(Stock, pk=stock_id)
     stock.delete()
-    messages.success(request, "Operation reussit")
+    messages.success(request, "Stock supprimer avec succes")
     next_param = request.GET.get('next', None)
     if next_param:
                 return redirect(request.GET['next'])
@@ -254,7 +281,7 @@ def create_category(request):
         form = CategoriesProduitForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Operation reussit")
+            messages.success(request, "Categorie ajouter avec success")
             next_param = request.GET.get('next', None)
             if next_param:
                 return redirect(request.GET['next'])
@@ -272,21 +299,21 @@ def update_category(request, id):
         form = CategoriesProduitForm(request.POST, instance=category)
         if form.is_valid():
             form.save()
-            messages.success(request, "Operation reussit")
+            messages.success(request, "Categorie editer avec succes")
             next_param = request.GET.get('next', None)
             if next_param:
                 return redirect(request.GET['next'])
             return redirect('liste_categories')  
     else:
         form = CategoriesProduitForm(instance=category)
-
-    return render(request, 'create_category.html', {'form': form, 'category': category})
+    form = CategoriesProduitForm(instance=category)
+    return render(request, 'ajouter_category.html', {'form': form, 'category': category})
 
 @login_required
 def delete_category(request, id):
     category = get_object_or_404(Categories_Produit, id=id)
     category.delete()
-    messages.success(request, "Operation reussit")
+    messages.success(request, "Categorie supprimer avec succes")
     next_param = request.GET.get('next', None)
     if next_param:
                 return redirect(request.GET['next'])
@@ -302,7 +329,7 @@ def enregistrement_produit_entrant(request):
             entrer_produit = form.save(commit=False)
             entrer_produit.update_prix_total()  
             entrer_produit.save()
-            messages.success(request, "Operation reussit")
+            messages.success(request, "Stock de produit entrant ajouter avec succes")
             return redirect('liste_produits_entrants')  
         form = EntrerProduitForm()
 
@@ -328,7 +355,7 @@ def modifier_produit_entrant(request, id):
         form = EntrerProduitForm(request.POST, instance=entrer_produit)
         if form.is_valid():
             form.save()
-            messages.success(request, "Operation reussit")
+            messages.success(request, "Produit entrant modifier avec succes")
             next_param = request.GET.get('next', None)
             if next_param:
                 return redirect(request.GET['next'])
@@ -344,7 +371,7 @@ def supprimer_produit_entrant(request, id):
 
     if request.method == 'POST':
         entrer_produit.delete()
-        messages.success(request, "Operation reussit")
+        messages.success(request, "Produit entrant supprimer avec succes")
         next_param = request.GET.get('next', None)
         if next_param:
                 return redirect(request.GET['next'])
@@ -379,7 +406,7 @@ def enregistrement_produit_sortant(request):
             entrer_produit = form.save(commit=False)
             entrer_produit.update_prix_total()  
             entrer_produit.save()
-            messages.success(request, "Operation reussit")
+            messages.success(request, "Produit sortant(client) ajouter avec succes")
             next_param = request.GET.get('next', None)
             if next_param:
                 return redirect(request.GET['next'])
@@ -397,7 +424,7 @@ def modifier_produit_sortant(request, id):
         form = SortantClientForm(request.POST, instance=sortie_client_produit)
         if form.is_valid():
             form.save()
-            messages.success(request, "Operation reussit")
+            messages.success(request, "Produit sortant(client) modifier avec succes")
             next_param = request.GET.get('next', None)
             if next_param:
                 return redirect(request.GET['next'])
@@ -413,7 +440,7 @@ def supprimer_produit_sortant(request, id):
 
     if request.method == 'POST':
         sortie_client_produit.delete()
-        messages.success(request, "Operation reussit")
+        messages.success(request, "Produits sortant(client) supprimer avec succes")
         next_param = request.GET.get('next', None)
         if next_param:
                 return redirect(request.GET['next'])
@@ -448,7 +475,7 @@ def enregistrement_produit_sortant_grossiste(request):
             entrer_produit = form.save(commit=False)
             entrer_produit.update_prix_total()  
             entrer_produit.save()
-            messages.success(request, "Operation reussit")
+            messages.success(request, "Produit sortant(grossiste) ajouter avec succes")
             next_param = request.GET.get('next', None)
             if next_param:
                 return redirect(request.GET['next'])
@@ -466,7 +493,7 @@ def modifier_produit_sortant_grossiste(request, id):
         form = SortantGrossisteForm(request.POST, instance=sortie_grossiste_produit)
         if form.is_valid():
             form.save()
-            messages.success(request, "Operation reussit")
+            messages.success(request, "Produit sortant(grossiste) modifier avec succees")
             next_param = request.GET.get('next', None)
             if next_param:
                 return redirect(request.GET['next'])
@@ -482,7 +509,7 @@ def supprimer_produit_sortant_grossiste(request, id):
 
     if request.method == 'POST':
         sortie_client_produit.delete()
-        messages.success(request, "Operation reussit")
+        messages.success(request, "Produit sortant(grossiste) supprimer avec succes")
         next_param = request.GET.get('next', None)
         if next_param:
             return redirect(request.GET['next'])
@@ -502,7 +529,7 @@ def ajouter_produit(request):
         form = ProduitForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Operation reussit")
+            messages.success(request, "Produit ajouter avec succes")
             next_param = request.GET.get('next', None)
             if next_param:
                 return redirect(request.GET['next'])
@@ -520,7 +547,7 @@ def modifier_produit(request, pk):
         form = ProduitForm(request.POST, instance=produit)
         if form.is_valid():
             form.save()
-            messages.success(request, "Operation reussit")
+            messages.success(request, "Produit modifier avec succes")
             next_param = request.GET.get('next', None)
             if next_param:
                 return redirect(request.GET['next'])
@@ -536,7 +563,7 @@ def supprimer_produit(request, pk):
 
     if request.method == 'POST':
         produit.delete()
-        messages.success(request, "Operation reussit")
+        messages.success(request, "Produit supprimer avec succes")
         next_param = request.GET.get('next', None)
         if next_param:
                 return redirect(request.GET['next'])
