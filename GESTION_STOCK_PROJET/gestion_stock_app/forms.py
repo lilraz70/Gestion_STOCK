@@ -55,6 +55,16 @@ class EntrerProduitForm(forms.ModelForm):
             field.widget.attrs.update({'class': 'form-control'})
         self.fields['produit'].queryset = Produit.objects.filter(stock__isnull=False)
 
+class EntrerProduitUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Entrer
+        fields = ['produit', 'fournisseur', 'quantite']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+
 class ProduitForm(forms.ModelForm):
     class Meta:
         model = Produit
@@ -81,6 +91,7 @@ class SortantClientForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
         self.fields['produit'].queryset = Produit.objects.filter(stock__isnull=False)
+
     
 class SortantGrossisteForm(forms.ModelForm):
     class Meta:
@@ -91,8 +102,8 @@ class SortantGrossisteForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
         self.fields['produit'].queryset = Produit.objects.filter(stock__isnull=False)
-    
 
+            
 class StockForm(forms.ModelForm):
     class Meta:
         model = Stock
@@ -103,3 +114,13 @@ class StockForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
         self.fields['produit'].queryset = Produit.objects.filter(stock__isnull=True)
+
+class StockUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Stock
+        fields = ('produit', 'total_produit',  'seuil_alerte_produit', )  
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})

@@ -11,7 +11,6 @@ def enregistrement_alert_log(seuils):
             hist = AlertHistorique.objects.create(intituler = seuil.produit.nom_produit, date = seuil.date)
             hist.save()
             
-        #[f"Seuil de stock de {produit.produit.nom_produit} est atteint" for produit in seuil_stock if produit]
 @login_required
 def fournisseur(request, id=0):
     
@@ -32,10 +31,12 @@ def fournisseur(request, id=0):
         form = FournisseurForm(instance=instance)
         return render(request, 'ajouter_acteurs.html', {'form':form})
     if 'deleteFournisseur' in request.path and id !=0:
-        fournisseur = get_object_or_404(Fournisseur, pk=id)
-        fournisseur.delete()
-        messages.success(request, "Fournisseur supprimmer avec succes")
-        return redirect('fournisseurs')
+        if request.method == "POST":
+            fournisseur = get_object_or_404(Fournisseur, pk=id)
+            fournisseur.delete()
+            messages.success(request, "Fournisseur supprimmer avec succes")
+            return redirect('fournisseurs')
+        return render(request,"confirmation.html")
     if 'addFournisseur' in request.path:
         if request.method == 'POST':
             form = FournisseurForm(request.POST)
@@ -74,10 +75,12 @@ def grossiste(request, id=0):
         form = GrossisteForm(instance=instance)
         return render(request, 'ajouter_acteurs.html', {'form':form})
     if 'deleteGrossiste' in request.path and id !=0:
-        fournisseur = get_object_or_404(Grossiste, pk=id)
-        fournisseur.delete()
-        messages.success(request, "Grossiste supprimer avec succes")
-        return redirect('fournisseurs')
+        if request.method == "POST":
+            grossiste = get_object_or_404(Grossiste, pk=id)
+            grossiste.delete()
+            messages.success(request, "Grossiste supprimer avec succes")
+            return redirect('fournisseurs')
+        return render(request,"confirmation.html")
     if 'addGrossiste' in request.path:
         if request.method == 'POST':
             form = GrossisteForm(request.POST)
@@ -115,10 +118,12 @@ def client(request, id=0):
         form = ClientForm(instance=instance)
         return render(request, 'ajouter_acteurs.html', {'form':form})
     if 'deleteClient' in request.path and id !=0:
-        fournisseur = get_object_or_404(Client, pk=id)
-        fournisseur.delete()
-        messages.success(request, "CLient supprimer avec succes")
-        return redirect('clients')
+        if request.method == "POST":
+            fournisseur = get_object_or_404(Client, pk=id)
+            fournisseur.delete()
+            messages.success(request, "CLient supprimer avec succes")
+            return redirect('clients')
+        return render(request,"confirmation.html")
     if 'addClient' in request.path:
         if request.method == 'POST':
             form = ClientForm(request.POST)
@@ -244,7 +249,7 @@ def ajouter_stock(request):
 def modifier_stock(request, stock_id):
     stock = get_object_or_404(Stock, pk=stock_id)
     if request.method == 'POST':
-        form = StockForm(request.POST, instance=stock)
+        form = StockUpdateForm(request.POST, instance=stock)
         if form.is_valid():
             form.save()
             messages.success(request, "Stock modifier avec succes")
@@ -253,17 +258,18 @@ def modifier_stock(request, stock_id):
                 return redirect(request.GET['next'])
             return redirect('stocks')
     else:
-        form = StockForm(instance=stock)
+        form = StockUpdateForm(instance=stock)
     return render(request, 'ajouter_stock.html', {'form': form, 'stock': stock})
 @login_required
 def supprimer_stock(request, stock_id):
-    stock = get_object_or_404(Stock, pk=stock_id)
-    stock.delete()
-    messages.success(request, "Stock supprimer avec succes")
-    next_param = request.GET.get('next', None)
-    if next_param:
-                return redirect(request.GET['next'])
-    return redirect('stocks')
+    if request.method == "POST":
+        stock = get_object_or_404(Stock, pk=stock_id)
+        stock.delete()
+        messages.success(request, "Stock supprimer avec succes")
+        next_param = request.GET.get('next', None)
+        return redirect('stocks')
+    return render(request,"confirmation.html")
+   
 
 #les vues des catégories
 @login_required
@@ -301,8 +307,6 @@ def update_category(request, id):
             form.save()
             messages.success(request, "Categorie editer avec succes")
             next_param = request.GET.get('next', None)
-            if next_param:
-                return redirect(request.GET['next'])
             return redirect('liste_categories')  
     else:
         form = CategoriesProduitForm(instance=category)
@@ -311,13 +315,14 @@ def update_category(request, id):
 
 @login_required
 def delete_category(request, id):
-    category = get_object_or_404(Categories_Produit, id=id)
-    category.delete()
-    messages.success(request, "Categorie supprimer avec succes")
-    next_param = request.GET.get('next', None)
-    if next_param:
-                return redirect(request.GET['next'])
-    return redirect('liste_categories')
+    if request.method == "POST":
+        category = get_object_or_404(Categories_Produit, id=id)
+        category.delete()
+        messages.success(request, "Categorie supprimer avec succes")
+        next_param = request.GET.get('next', None)
+        return redirect('liste_categories')
+    return render(request,"confirmation.html")
+    
 
 #les vues des produits entrants
 @login_required
@@ -357,8 +362,6 @@ def modifier_produit_entrant(request, id):
             form.save()
             messages.success(request, "Produit entrant modifier avec succes")
             next_param = request.GET.get('next', None)
-            if next_param:
-                return redirect(request.GET['next'])
             return redirect('liste_produits_entrants')
     else:
         form = EntrerProduitForm(instance=entrer_produit)
@@ -367,17 +370,12 @@ def modifier_produit_entrant(request, id):
 
 @login_required
 def supprimer_produit_entrant(request, id):
-    entrer_produit = get_object_or_404(Entrer, id=id)
-
     if request.method == 'POST':
+        entrer_produit = get_object_or_404(Entrer, id=id)
         entrer_produit.delete()
         messages.success(request, "Produit entrant supprimer avec succes")
-        next_param = request.GET.get('next', None)
-        if next_param:
-                return redirect(request.GET['next'])
         return redirect('liste_produits_entrants')
-
-    return render(request, 'enregistrement_produit_entrant.html', {'entrer_produit': entrer_produit})
+    return render(request,"confirmation.html")
 
 #les vues des produits sortants clients
 @login_required
@@ -436,17 +434,15 @@ def modifier_produit_sortant(request, id):
 
 @login_required
 def supprimer_produit_sortant(request, id):
-    sortie_client_produit = get_object_or_404(Sortie_client, id=id)
 
     if request.method == 'POST':
+        sortie_client_produit = get_object_or_404(Sortie_client, id=id)
         sortie_client_produit.delete()
         messages.success(request, "Produits sortant(client) supprimer avec succes")
         next_param = request.GET.get('next', None)
-        if next_param:
-                return redirect(request.GET['next'])
         return redirect('liste_produits_sortants')
 
-    return render(request, 'enregistrement_produit_sortant.html', {'sortie_client_produit': sortie_client_produit})
+    return render(request,"confirmation.html")
 
 #les vues des produits sortants grossistes
 @login_required
@@ -505,9 +501,8 @@ def modifier_produit_sortant_grossiste(request, id):
 
 @login_required
 def supprimer_produit_sortant_grossiste(request, id):
-    sortie_client_produit = get_object_or_404(Sortie_grossiste, id=id)
-
     if request.method == 'POST':
+        sortie_client_produit = get_object_or_404(Sortie_grossiste, id=id)
         sortie_client_produit.delete()
         messages.success(request, "Produit sortant(grossiste) supprimer avec succes")
         next_param = request.GET.get('next', None)
@@ -515,7 +510,7 @@ def supprimer_produit_sortant_grossiste(request, id):
             return redirect(request.GET['next'])
         return redirect('liste_produits_sortants_grossiste')
 
-    return render(request, 'enregistrement_produit_sortant_grossiste.html', {'sortie_client_produit': sortie_client_produit})
+    return render(request,"confirmation.html")
 
 #les vues des produits 
 @login_required
@@ -540,8 +535,8 @@ def ajouter_produit(request):
     return render(request, 'ajouter_produit.html', {'form': form})
 
 @login_required
-def modifier_produit(request, pk):
-    produit = get_object_or_404(Produit, pk=pk)
+def modifier_produit(request, id):
+    produit = get_object_or_404(Produit, pk=id)
 
     if request.method == 'POST':
         form = ProduitForm(request.POST, instance=produit)
@@ -558,15 +553,11 @@ def modifier_produit(request, pk):
     return render(request, 'ajouter_produit.html', {'form': form, 'produit': produit})
 
 @login_required
-def supprimer_produit(request, pk):
-    produit = get_object_or_404(Produit, pk=pk)
+def supprimer_produit(request, id=0):
 
     if request.method == 'POST':
+        produit = get_object_or_404(Produit, pk=id)
         produit.delete()
         messages.success(request, "Produit supprimer avec succes")
-        next_param = request.GET.get('next', None)
-        if next_param:
-                return redirect(request.GET['next'])
         return redirect('liste_produits')  
-
-    return render(request, 'ajouter_produit.html', {'produit': produit})
+    return render(request,"confirmation.html")

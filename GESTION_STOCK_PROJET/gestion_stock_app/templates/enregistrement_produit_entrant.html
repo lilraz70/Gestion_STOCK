@@ -8,7 +8,7 @@
          
         </h2>
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <h1 style="color: #284fc2;" class="h3 mb-0"> {% if action == "add" %}Ajouter{% elif action == "edit" %}Modifier{% elif action == "delete" %}Supprimer{% endif %} Ajouter un produit entrant </h1>
+          <h1 style="color: #284fc2;" class="h3 mb-0"> Ajouter un produit entrant </h1>
               <a href="{% url 'addFournisseur' %}?next={{request.path}}" class="btn btn-sm btn-primary shadow-sm">
                 <i class="fas fa-download fa-sm text-white-50"></i> Ajouter un nouveau Fournisseur
               </a>
@@ -23,7 +23,7 @@
           <div class="form-group row">
             <div class="col-sm-10 d-flex justify-content-between">
               <button type="submit" class="btn btn-primary">
-                {% if action == "add" %}Ajouter{% elif action == "edit" %}Modifier{% elif action == "delete" %}Supprimer{% endif %} Enregistrer
+                Enregistrer
               </button>
               <a href="{% url 'liste_produits_entrants' %}" class="btn btn-secondary">Retour à la liste des produits</a>
             </div>
