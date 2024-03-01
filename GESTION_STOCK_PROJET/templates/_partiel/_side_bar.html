@@ -1,127 +1,153 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-  <!-- Sidebar - Brand -->
-  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
-      <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
-      </div>
-      <div class="sidebar-brand-text mx-3">Gestion de stock <sup>2</sup></div>
-  </a>
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Gestion de stock <sup>2</sup></div>
+    </a>
 
-  <!-- Divider -->
-  <hr style="background: yellow" class="sidebar-divider my-0">
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
 
-  <!-- Nav Item - Dashboard -->
-  <li class="nav-item {% if  request.path == '/' %} active {% endif %} ">
-      <a class="nav-link" href="{% url 'dashboard' %}">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Tableau de bord</span></a>
-  </li>
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item {% if  request.path == '/' %} active {% endif %} ">
+        <a class="nav-link" href="{% url 'dashboard' %}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Tableau de bord</span></a>
+    </li>
 
-  <!-- Divider -->
-  <hr style="background: yellow" class="sidebar-divider">
+    <!-- Divider -->
+    <hr class="sidebar-divider">
 
-  <!-- Heading -->
-  <div style="color: yellow" class="sidebar-heading">
-      Generale
-  </div>
+    <!-- Heading -->
+    <div class="sidebar-heading font-weight-bold text-white ">
+        Generale
+    </div>
 
-  <!-- Nav Item - Pages Collapse Menu -->
-  <li class="nav-item {% if 'listes_produit' in request.path or 'categorie' in request.path or 'create_category' in request.path or 'update_category' in request.path or 'ajouter_produits' in request.path or 'modifier_produits' in request.path %} active {% endif %}">
-      <a class="nav-link collapsed" href='#' data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Produits</span>
-      </a>
-      <div id="collapseTwo" class="collapse {% if 'listes_produit' in request.path or 'categorie' in request.path or 'ajouter_produits' in request.path or 'modifier_produits' in request.path or 'create_category' in request.path or 'update_category' in request.path %} show {% endif %}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-              <h6 class="collapse-header">Informations Produits:</h6>
-              <a class="collapse-item {% if 'listes_produit' in request.path or 'ajouter_produits' in request.path or 'modifier_produits' in request.path %} active {% endif %} " href="{% url 'liste_produits' %}">Liste des produits</a>
-              <a class="collapse-item {% if 'categorie' in request.path or 'create_category' in request.path or 'update_category' in request.path %} active {% endif %} " href="{% url 'liste_categories' %}">Catégories</a>
-          </div>
-      </div>
-  </li>
 
-  <li class="nav-item {% if 'stock' in request.path %} active {% endif %}">
-    <a class="nav-link" href="{% url 'stocks' %}">
-        <i class="fas fa-fw fa-chart-area"></i>
-        <span>Stocks</span></a>
-</li>
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li
+        class="nav-item {% if 'listes_produit' in request.path or 'categorie' in request.path or 'create_category' in request.path or 'update_category' in request.path or 'ajouter_produits' in request.path or 'modifier_produits' in request.path %} active {% endif %}">
+        <a class="nav-link collapsed" href='#' data-toggle="collapse" data-target="#collapseTwo"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Produits</span>
+        </a>
+        <div id="collapseTwo"
+            class="collapse {% if 'listes_produit' in request.path or 'categorie' in request.path or 'ajouter_produits' in request.path or 'modifier_produits' in request.path or 'create_category' in request.path or 'update_category' in request.path %} show {% endif %}"
+            aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Informations Produits:</h6>
+                <a class="collapse-item {% if 'listes_produit' in request.path or 'ajouter_produits' in request.path or 'modifier_produits' in request.path %} active {% endif %} "
+                    href="{% url 'liste_produits' %}">Liste des produits</a>
+                <a class="collapse-item {% if 'categorie' in request.path or 'create_category' in request.path or 'update_category' in request.path %} active {% endif %} "
+                    href="{% url 'liste_categories' %}">Catégories</a>
+            </div>
+        </div>
+    </li>
 
-  <!-- Divider -->
-  <hr style="background: yellow" class="sidebar-divider">
+    <li class="nav-item {% if 'stock' in request.path %} active {% endif %}">
+        <a class="nav-link" href="{% url 'stocks' %}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Stocks</span></a>
+    </li>
 
-  <!-- Heading -->
-  <div style="color: yellow" class="sidebar-heading">
-      Mouvements
-  </div>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
 
-  <!-- Nav Item - Pages Collapse Menu -->
-  <li class="nav-item {% if 'sortants_grossistes' in request.path or 'sortants' in request.path %} active  {% endif %}">
-      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-          aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Sortis</span>
-      </a>
-      <div id="collapsePages" class="collapse {% if 'sortants_grossistes' in request.path or 'sortant' in request.path %} show {% endif %}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Informations Sortis:</h6>
-              <a class="collapse-item {% if 'sortants_grossistes' in request.path %} active {% endif %}" href="{% url 'liste_produits_sortants_grossiste' %}">Sortis grossistes</a>
-              <a class="collapse-item {% if 'sortantss' in request.path %} active {% endif %} " href="{% url 'liste_produits_sortants' %}">Sortis details</a>
-          </div>
-      </div>
-  </li>
+    <!-- Heading -->
+    <div class="sidebar-heading font-weight-bold text-white">
+        Mouvements
+    </div>
 
-  <!-- Nav Item - Charts -->
-  <li class="nav-item {% if 'liste_produits_entrants' in request.path or 'produit_entrant' in request.path %} active {% endif %}">
-      <a class="nav-link" href="{% url 'liste_produits_entrants' %}">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Produits Entrants</span></a>
-  </li>
-  <hr style="background: yellow" class="sidebar-divider">
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li
+        class="nav-item {% if 'sortants_grossistes' in request.path or 'sortants' in request.path %} active  {% endif %}">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+            aria-expanded="true" aria-controls="collapsePages">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Sortis</span>
+        </a>
+        <div id="collapsePages"
+            class="collapse {% if 'sortants_grossistes' in request.path or 'sortant' in request.path %} show {% endif %}"
+            aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Informations Sortis:</h6>
+                <a class="collapse-item {% if 'sortants_grossistes' in request.path %} active {% endif %}"
+                    href="{% url 'liste_produits_sortants_grossiste' %}">Sortis grossistes</a>
+                <a class="collapse-item {% if 'sortantss' in request.path %} active {% endif %} "
+                    href="{% url 'liste_produits_sortants' %}">Sortis details</a>
+            </div>
+        </div>
+    </li>
 
-  <!-- Heading -->
-  <div style="color: yellow" class="sidebar-heading">
-      Acteurs
-  </div>
+    <!-- Nav Item - Charts -->
+    <li
+        class="nav-item {% if 'liste_produits_entrants' in request.path or 'produit_entrant' in request.path %} active {% endif %}">
+        <a class="nav-link" href="{% url 'liste_produits_entrants' %}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Produits Entrants</span></a>
+    </li>
+    <hr class="sidebar-divider">
 
-  <!-- Nav Item - Pages Collapse Menu -->
-  <li class="nav-item {% if 'liste-grossistes' in request.path or 'liste-clients' in request.path %} active {% endif %}">
-      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-          aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Sortants</span>
-      </a>
-      <div id="collapseUtilities" class="collapse {% if 'liste-clients' in request.path or 'liste-grossistes' in request.path %} show {% endif %}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Informations:</h6>
-              <a class="collapse-item {% if 'liste-grossistes' in request.path %} active {% endif %}" href="{% url 'grossistes' %}">Grossistes</a>
-              <a class="collapse-item {% if 'liste-clients' in request.path %} active {% endif %}" href="{% url 'clients' %}">Clients</a>
-          </div>
-      </div>
-  </li>
+    <!-- Heading -->
+    <div class="sidebar-heading font-weight-bold text-white">
+        Acteurs
+    </div>
 
-  <li class="nav-item {% if 'fournisseurs' in request.path %} active {% endif %}">
-    <a class="nav-link" href="{% url 'fournisseurs' %}">
-        <i class="fas fa-fw fa-chart-area"></i>
-        <span>Fournisseurs</span></a>
-</li>
-   <!-- Divider -->
-   <hr style="background: red" class="sidebar-divider">
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li
+        class="nav-item {% if 'liste-grossistes' in request.path or 'liste-clients' in request.path %} active {% endif %}">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+            aria-expanded="true" aria-controls="collapsePages">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Sortants</span>
+        </a>
+        <div id="collapseUtilities"
+            class="collapse {% if 'liste-clients' in request.path or 'liste-grossistes' in request.path %} show {% endif %}"
+            aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Informations:</h6>
+                <a class="collapse-item {% if 'liste-grossistes' in request.path %} active {% endif %}"
+                    href="{% url 'grossistes' %}">Grossistes</a>
+                <a class="collapse-item {% if 'liste-clients' in request.path %} active {% endif %}"
+                    href="{% url 'clients' %}">Clients</a>
+            </div>
+        </div>
+    </li>
 
-   <!-- Heading -->
-   <div style="color: red" class="sidebar-heading">
-       Notifications
-   </div>
-  <!-- Nav Item - Tables -->
-  <li class="nav-item">
-      <a class="nav-link" href="{% url "alerts" %}">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Alertes</span></a>
-  </li> 
-  <li class="nav-item {% if 'historique' in request.path %} active {% endif %}">
-      <a class="nav-link" href="{% url 'historique' %}">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Historique</span></a>
-  </li>
+    <li class="nav-item {% if 'fournisseurs' in request.path %} active {% endif %}">
+        <a class="nav-link" href="{% url 'fournisseurs' %}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Fournisseurs</span></a>
+    </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading font-weight-bold text-white">
+        Notifications
+    </div>
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+        <a class="nav-link" href="{% url "alerts" %}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Alertes</span></a>
+    </li>
+    <li class="nav-item {% if 'historique' in request.path %} active {% endif %}">
+        <a class="nav-link" href="{% url 'historique' %}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Historique</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
 
 </ul>
